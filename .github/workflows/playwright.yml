@@ -27,8 +27,8 @@ jobs:
     - name: Create env file
       run: |
           touch .env
-          echo "EMAIL=${{ env.EMAIL }}" >> .env
-          echo "PASSWORD=${{ env.PASSWORD }}" >> .env
+          echo "EMAIL=${{ github.EMAIL }}" >> .env
+          echo "PASSWORD=${{ github.PASSWORD }}" >> .env
           cat .env
     - name: Run Playwright tests
       run: npx playwright test:${{ inputs.browser }}
