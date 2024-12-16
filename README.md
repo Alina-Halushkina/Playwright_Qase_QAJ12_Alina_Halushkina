@@ -19,10 +19,36 @@ Stack technologies:
 3. Allure
 4. Github Actions 
 
-Инструкции по запуску тестов и генерации отчета
+# Installation
 
 1. Create environment variables
 
 ```shell
 make project_install
+```
+
+2. Run tests
+
+```shell
+npx playwright test
+```
+
+Safari
+```shell
+npx playwright test --project=webkit
+```
+
+Chrome
+```shell
+npx playwright test --project=chromium
+```
+
+Firefox
+```shell
+npx playwright test --project=firefox
+```
+
+Report
+```shell
+npx playwright show-report
 ```
