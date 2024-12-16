@@ -5,7 +5,7 @@ test('Login with correct email and password', async ({ page }) => {
   await page.getByPlaceholder('Email').fill(process.env.EMAIL);
   await page.getByPlaceholder('Password').fill(process.env.PASSWORD);
   await page.getByRole('button', {name: 'Sign'}).click();
-  await expect(page.getByRole('button', { name: 'Create new project' })).toBeVisible();
+  await expect(page.getByRole('button', {name: 'Create new project'})).toBeVisible();
 });
 
 test('Login with incorrect email and password', async ({ page }) => {
