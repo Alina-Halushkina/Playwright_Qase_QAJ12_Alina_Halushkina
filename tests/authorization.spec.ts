@@ -11,7 +11,7 @@ test('Login with correct email and password', async ({ page }) => {
 test('Login with incorrect email and password', async ({ page }) => {
   await page.goto('https://app.qase.io/login');
   await page.getByPlaceholder('Email').fill('test@gmail.com');
-    await page.getByPlaceholder('Password').fill('Test1234!');
+    await page.getByPlaceholder('Password').fill('Testing1749!');
     await page.getByRole('button', {name: 'Sign'}).click();
     await expect(page.getByText('These credentials do not').first()).toBeVisible();
 });
