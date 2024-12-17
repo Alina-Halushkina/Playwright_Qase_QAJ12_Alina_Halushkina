@@ -28,5 +28,5 @@ test('Delete project', async ({page}) => {
     await page.getByRole('link', { name: 'Settings' }).click();
     await page.getByRole('button', { name: 'Delete project' }).click();
     await page.getByLabel('Delete project').getByRole('button', { name: 'Delete project' }).click();
-    await expect(page.getByRole('heading', {name: 'Test Project'})).not.toBeVisible();
+    await expect(page.getByText('ProjectsCreate new')).not.toContainText('Test Project');
 });
