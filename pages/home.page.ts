@@ -14,8 +14,12 @@ export class HomePage extends BasePage {
         return this.page.getByLabel('user', { exact: true });
     }
 
-
     get logoutButton() {
         return this.page.getByRole('menuitem', { name: 'Sign out' });
+    }
+
+    async logout() {
+        await this.userIcon.click();
+        await this.logoutButton.click();
     }
 }

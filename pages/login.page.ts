@@ -27,9 +27,15 @@ export class LoginPage extends BasePage {
     }
 
     async login() {
-        await this.page.getByPlaceholder('Email').fill(process.env.EMAIL);
-        await this.page.getByPlaceholder('Password').fill(process.env.PASSWORD);
-        await this.page.getByRole('button', {name: 'Sign'}).click();
+        await this.emailField.fill(process.env.EMAIL);
+        await this.passwordField.fill(process.env.PASSWORD);
+        await this.loginButton.click();
+    }
+
+    async loginWithData(email: string, password: string) {
+        await this.emailField.fill(email);
+        await this.passwordField.fill(password);
+        await this.loginButton.click();
     }
 
 }
