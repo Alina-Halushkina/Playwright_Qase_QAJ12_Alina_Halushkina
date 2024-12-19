@@ -3,7 +3,7 @@ import {BasePage} from "./base.page";
 export class DefectPage extends BasePage {
 
     get pageURL(): string {
-        return "https://app.qase.io/projects/TP";
+        return "https://app.qase.io/defect/TP";
     }
 
     get createDefectButton() {

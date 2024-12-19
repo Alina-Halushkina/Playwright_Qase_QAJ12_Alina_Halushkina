@@ -1,36 +1,36 @@
 import {test, expect} from '@playwright/test';
-import {beforeEach} from "node:test";
+import {LoginPage} from "../pages/login.page";
+import {HomePage} from "../pages/home.page";
+import {ProjectPage} from "../pages/project.page";
+import {CasePage} from "../pages/case.page";
+import {TestRunPage} from "../pages/testRun.page";
 
-test.beforeEach(
-    async ({page}) => {
-        await page.goto('https://app.qase.io/login');
-        await page.getByPlaceholder('Email').fill(process.env.EMAIL);
-        await page.getByPlaceholder('Password').fill(process.env.PASSWORD);
-        await page.getByRole('button', {name: 'Sign'}).click();
-        await expect(page.getByRole('button', {name: 'Create new project'})).toBeVisible();
+let loginPage: LoginPage;
+let homePage: HomePage;
+let projectPage: ProjectPage;
+let casePage: CasePage;
+let testRunPage: TestRunPage;
 
-        await page.getByRole('button', {name: 'Create new project'}).click();
-        await page.getByPlaceholder('For example: Web Application').fill('Test Project 1');
-        await page.getByPlaceholder('For example: WA').fill('TP');
-        await page.getByRole('button', {name: 'Create project'}).click();
-        await expect(page.getByRole('heading', {name: 'Test Project 1'})).toBeVisible();
-        await page.getByRole('button', {name: 'Case', exact: true}).click();
-        await page.getByPlaceholder('For example: Authorization').fill('Test case 1');
-        await page.getByRole('button', { name: 'Add attachment' }).click();
-        await page.getByRole('link', { name: 'Browse' }).click();
-        await page.getByRole('link', { name: 'disc.png 280.74 KB' }).click();
-        await expect(page.getByRole('link', { name: 'disc.png 280.74 KB' })).toBeVisible();
-        await page.getByRole('button', { name: 'Save', exact: true }).click();
-        await expect(page.getByRole('heading', {name: 'Test case 1'})).toBeVisible();
+test.beforeEach(async ({page}) => {
+    loginPage = new LoginPage(page);
+    homePage = new HomePage(page);
+    projectPage = new ProjectPage(page);
+    casePage = new CasePage(page);
+    testRunPage = new TestRunPage(page);
+    await loginPage.goto();
+    await loginPage.login();
+    await expect(homePage.createProjectButton).toBeVisible();
+    await homePage.createProject('Test Project 1', 'TP');
+    await expect(projectPage.projectName).toBeVisible();
+    await projectPage.createCaseButtonClick()
+    await casePage.createCase('Test case 1');
+    await expect(casePage.caseAttachmentFile).toBeVisible();
+    await casePage.caseSave();
+    await expect(casePage.caseName).toBeVisible();
 });
 
 test('Create test run', async ({page}) => {
-    await page.getByRole('link', { name: 'Test Runs' }).click();
-    await page.getByRole('button', { name: 'Start new test run' }).first().click();
-    await page.getByPlaceholder('Give a name to the test run').fill('Test run 1');
-    await page.getByRole('button', { name: 'Select cases' }).click();
-    await page.getByText('Select all').first().click();
-    await page.getByRole('button', { name: 'Done' }).click();
-    await page.getByRole('button', { name: 'Start a run' }).click();
-    await expect(page.getByRole('heading', {name: 'Test run 1'})).toBeVisible();
+    await projectPage.testRunButtonClick();
+    await testRunPage.createTestRun('Test run 1');
+    await expect(testRunPage.testRunName).toBeVisible();
 });
