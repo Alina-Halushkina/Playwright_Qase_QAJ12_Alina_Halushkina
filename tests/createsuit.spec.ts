@@ -13,12 +13,12 @@ test.beforeEach(
 
 test('Create suit', async ({page}) => {
     await page.getByRole('button', {name: 'Create new project'}).click();
-    await page.getByPlaceholder('For example: Web Application').fill('Test Project');
+    await page.getByPlaceholder('For example: Web Application').fill('Test Project 1');
     await page.getByPlaceholder('For example: WA').fill('TP');
     await page.getByRole('button', { name: 'Create project' }).click();
-    await expect(page.getByRole('heading', { name: 'Test Project' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Test Project 1' })).toBeVisible();
     await page.getByRole('button', { name: 'Suite', exact: true }).click();
-    await page.getByPlaceholder('For example: Web Application').fill('Test suite');
+    await page.getByPlaceholder('For example: Web Application').fill('Test suite 1');
     await page.getByRole('button', { name: 'Create', exact: true }).click();
-    await expect(page.getByRole('heading', {name: 'Test suite'})).toBeVisible();
+    await expect(page.getByRole('heading', {name: 'Test suite 1'})).toBeVisible();
 });
