@@ -46,6 +46,10 @@ export class ProjectPage extends BasePage {
         return this.page.getByRole('link', { name: 'Test Plans' });
     }
 
+    get defectsButton() {
+        return this.page.getByRole('link', {name: 'Defects'});
+    }
+
     async deleteProject() {
         await this.projectSettingsButton.click();
         await this.projectDeleteButton.click();
@@ -61,7 +65,12 @@ export class ProjectPage extends BasePage {
     async createCaseButtonClick() {
         await this.caseButtonCreate.click();
     }
+
     async plansButtonClick() {
         await this.plansButton.click();
+    }
+
+    async defectsButtonClick() {
+        await this.defectsButton.click();
     }
 }
