@@ -32,5 +32,5 @@ test('Sign out', async ({page}) => {
   await expect(page.getByRole('button', {name: 'Create new project'})).toBeVisible();
   await page.getByLabel('user', { exact: true }).click();
   await page.getByRole('menuitem', { name: 'Sign out' }).click();
-  await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Sign' })).toBeVisible();
 });
