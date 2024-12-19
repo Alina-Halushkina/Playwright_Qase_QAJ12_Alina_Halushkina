@@ -1,32 +1,26 @@
 import {test, expect} from '@playwright/test';
-import {beforeEach} from "node:test";
+import {LoginPage} from "../pages/login.page";
+import {HomePage} from "../pages/home.page";
 
-test.beforeEach(
-    async ({page}) => {
-        await page.goto('https://app.qase.io/login');
-        await page.getByPlaceholder('Email').fill(process.env.EMAIL);
-        await page.getByPlaceholder('Password').fill(process.env.PASSWORD);
-        await page.getByRole('button', {name: 'Sign'}).click();
-        await expect(page.getByRole('button', {name: 'Create new project'})).toBeVisible();
-    }
-)
+let loginPage: LoginPage;
+let homePage: HomePage;
+
+test.beforeEach(async ({page}) => {
+    loginPage = new LoginPage(page);
+    homePage = new HomePage(page);
+    await loginPage.goto();
+    await loginPage.login();
+    await expect(homePage.createProjectButton).toBeVisible();
+});
 
 test('Create project', async ({page}) => {
-    await page.getByRole('button', {name: 'Create new project'}).click();
-    await page.getByPlaceholder('For example: Web Application').fill('Test Project 1');
-    await page.getByPlaceholder('For example: WA').fill('TP');
-    await page.getByRole('button', { name: 'Create project' }).click();
-    await expect(page.getByRole('heading', { name: 'Test Project 1' })).toBeVisible();
+    await homePage.createProject('Test Project 1', 'TP');
+    await expect(homePage.projectName).toBeVisible();
 });
 
 test('Delete project', async ({page}) => {
-    await page.getByRole('button', {name: 'Create new project'}).click();
-    await page.getByPlaceholder('For example: Web Application').fill('Test Project 1');
-    await page.getByPlaceholder('For example: WA').fill('TP');
-    await page.getByRole('button', {name: 'Create project'}).click();
-    await expect(page.getByRole('heading', {name: 'Test Project 1'})).toBeVisible();
-    await page.getByRole('link', { name: 'Settings' }).click();
-    await page.getByRole('button', { name: 'Delete project' }).click();
-    await page.getByLabel('Delete project').getByRole('button', { name: 'Delete project' }).click();
-    await expect(page.getByText('ProjectsCreate new')).not.toContainText('Test Project 1');
+    await homePage.createProject('Test Project 1', 'TP');
+    await expect(homePage.projectName).toBeVisible();
+    await homePage.deleteProject();
+    await expect(homePage.createdProjects).not.toContainText('Test Project 1');
 });
