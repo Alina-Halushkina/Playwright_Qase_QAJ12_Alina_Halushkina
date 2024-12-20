@@ -58,6 +58,10 @@ export class ProjectPage extends BasePage {
         return this.page.getByRole('link', {name: 'Configurations'});
     }
 
+    get environmentsButton() {
+        return this.page.getByRole('link', {name: 'Environments'});
+    }
+
     async deleteProject() {
         await this.projectSettingsButton.click();
         await this.projectDeleteButton.click();
@@ -88,5 +92,9 @@ export class ProjectPage extends BasePage {
 
     async configurationButtonClick() {
         await this.configurationButton.click();
+    }
+
+    async environmentsButtonClick() {
+        await this.environmentsButton.click();
     }
 }
