@@ -1,9 +1,11 @@
 import { test, expect } from '@playwright/test';
 import {LoginPage} from "../pages/login.page";
 import {HomePage} from "../pages/home.page";
+import {suite} from "node:test";
 
 let loginPage: LoginPage;
 let homePage: HomePage;
+
 
 test.beforeEach(async ({page}) => {
   loginPage = new LoginPage(page);
@@ -11,7 +13,7 @@ test.beforeEach(async ({page}) => {
   await loginPage.goto();
 });
 
-test('Login with correct email and password', async ({ page }) => {
+test('Login with correct email and password', {tag: "@smoke"}, async ({ page }) => {
   await loginPage.login();
   await expect(homePage.createProjectButton).toBeVisible();
 });

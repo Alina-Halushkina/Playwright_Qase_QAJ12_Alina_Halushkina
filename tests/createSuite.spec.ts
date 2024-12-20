@@ -18,7 +18,7 @@ test.beforeEach(async ({page}) => {
     await expect(projectPage.projectName).toBeVisible();
 });
 
-test('Create suite', async ({page}) => {
+test('Create suite', {tag: "@smoke"}, async ({page}) => {
     await projectPage.createSuite('Test suite 1');
     await expect(projectPage.suiteName).toBeVisible();
 });

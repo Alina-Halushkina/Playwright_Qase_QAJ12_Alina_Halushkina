@@ -16,7 +16,7 @@ test.beforeEach(async ({page}) => {
     await expect(homePage.createProjectButton).toBeVisible();
 });
 
-test('Create project', async ({page}) => {
+test('Create project', {tag: "@smoke"}, async ({page}) => {
     await homePage.createProject('Test Project 1', 'TP');
     await expect(projectPage.projectName).toBeVisible();
 });

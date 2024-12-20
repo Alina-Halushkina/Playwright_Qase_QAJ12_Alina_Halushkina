@@ -47,6 +47,10 @@ Firefox
 ```shell
 npx playwright test --project=firefox
 ```
+Smoke
+```shell
+npx playwright test --grep @smoke
+```
 
 Report
 ```shell
