@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test:smoke": "npx playwright test --grep @smoke",
-    "test:chrome": "npx playwright test --project chromium",
-    "test:firefox": "npx playwright test --project firefox"
+    "test:Chrome": "npx playwright test --project chromium",
+    "test:Firefox": "npx playwright test --project firefox"
   },
   "keywords": [],
   "author": "Alina Halushkina",
