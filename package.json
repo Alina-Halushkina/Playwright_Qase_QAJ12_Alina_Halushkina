@@ -4,7 +4,9 @@
   "description": "Description of product: Qase is a test management tool for organization, tracking, and reporting of manual and automated software testing",
   "main": "index.js",
   "scripts": {
-    "test:smoke": "npx playwright test --grep @smoke"
+    "test:smoke": "npx playwright test --grep @smoke",
+    "test:chrome": "npx playwright test --project chromium",
+    "test:firefox": "npx playwright test --project firefox"
   },
   "keywords": [],
   "author": "Alina Halushkina",
