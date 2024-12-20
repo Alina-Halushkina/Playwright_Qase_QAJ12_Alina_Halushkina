@@ -1,33 +1,32 @@
 import {test, expect} from '@playwright/test';
-import {beforeEach} from "node:test";
+import {LoginPage} from "../pages/login.page";
+import {HomePage} from "../pages/home.page";
+import {ProjectPage} from "../pages/project.page";
+import {ConfigurationsPage} from "../pages/configurations.page";
 
-test.beforeEach(
-    async ({page}) => {
-        await page.goto('https://app.qase.io/login');
-        await page.getByPlaceholder('Email').fill(process.env.EMAIL);
-        await page.getByPlaceholder('Password').fill(process.env.PASSWORD);
-        await page.getByRole('button', {name: 'Sign'}).click();
-        await expect(page.getByRole('button', {name: 'Create new project'})).toBeVisible();
+let loginPage: LoginPage;
+let homePage: HomePage;
+let projectPage: ProjectPage;
+let configurationsPage: ConfigurationsPage;
 
-        await page.getByRole('button', {name: 'Create new project'}).click();
-        await page.getByPlaceholder('For example: Web Application').fill('Test Project 1');
-        await page.getByPlaceholder('For example: WA').fill('TP');
-        await page.getByRole('button', {name: 'Create project'}).click();
-        await expect(page.getByRole('heading', {name: 'Test Project 1'})).toBeVisible();
-    });
+test.beforeEach(async ({page}) => {
+    loginPage = new LoginPage(page);
+    homePage = new HomePage(page);
+    projectPage = new ProjectPage(page);
+    configurationsPage = new ConfigurationsPage(page);
+    await loginPage.goto();
+    await loginPage.login();
+    await expect(homePage.createProjectButton).toBeVisible();
+    await homePage.createProject('Test Project 1', 'TP');
+    await expect(projectPage.projectName).toBeVisible();
+});
 
 test('Create configuration', async ({page}) => {
-    await page.getByRole('link', {name: 'Configurations'}).click();
-    await page.getByRole('button', { name: 'Create configuration group' }).click();
-    await page.getByPlaceholder('Please enter configuration title').fill('Operating system');
-    await page.getByRole('button', { name: 'Create', exact: true }).click();
-    await expect(page.locator('div').filter({ hasText: /^Operating system$/ }).first()).toBeVisible();
-    await page.getByRole('button', { name: '+ Create configuration' }).click();
-    await page.getByPlaceholder('Configuration title').fill('Mac OS');
-    await page.keyboard.press('Enter');
-    await expect(page.locator('div').filter({ hasText: /^Mac OS$/ }).nth(1)).toBeVisible();
-    await page.getByRole('button', { name: '+ Create configuration' }).click();
-    await page.getByPlaceholder('Configuration title').fill('Windows OS');
-    await page.keyboard.press('Enter');
-    await expect(page.locator('div').filter({ hasText: /^Windows OS$/ })).toBeVisible();
+    await projectPage.configurationButtonClick();
+    await configurationsPage.configurationGroupCreate('Operating system');
+    await expect(configurationsPage.configurationGroupName).toBeVisible();
+    await configurationsPage.configurationCreate('Mac OS');
+    await expect(configurationsPage.firstConfiguration).toBeVisible();
+    await configurationsPage.configurationCreate('Windows OS');
+    await expect(configurationsPage.secondConfiguration).toBeVisible();
 });
