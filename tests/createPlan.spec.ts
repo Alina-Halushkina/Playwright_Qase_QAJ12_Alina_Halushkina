@@ -27,7 +27,7 @@ test.beforeEach(async ({page}) => {
     await casePage.createCase('Test case 1');
     await expect(casePage.caseAttachmentFile).toBeVisible();
     await casePage.caseSave();
-    await expect(casePage.caseName).toBeVisible();
+    await expect(casePage.caseNameHeading).toBeVisible();
 });
 
 test('Create plan', async ({page}) => {

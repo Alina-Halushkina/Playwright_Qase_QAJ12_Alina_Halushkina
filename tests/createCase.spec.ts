@@ -8,23 +8,27 @@ let loginPage: LoginPage;
 let homePage: HomePage;
 let projectPage: ProjectPage;
 let casePage: CasePage;
+let projectName: string;
+let caseName: string;
 
 test.beforeEach(async ({page}) => {
     loginPage = new LoginPage(page);
     homePage = new HomePage(page);
     projectPage = new ProjectPage(page);
     casePage = new CasePage(page);
+    projectName = homePage.projectName;
+    caseName = casePage.caseName;
     await loginPage.goto();
     await loginPage.login();
     await expect(homePage.createProjectButton).toBeVisible();
-    await homePage.createProject('Test Project 1', 'TP');
-    await expect(projectPage.projectName).toBeVisible();
+    await homePage.createProject(projectName);
+    await expect(projectPage.projectNameHeading(projectName)).toBeVisible();
 });
 
 test('Create case with attachment', {tag: "@smoke"}, async ({page}) => {
     await projectPage.createCaseButtonClick()
-    await casePage.createCase('Test case 1');
+    await casePage.createCase(caseName);
     await expect(casePage.caseAttachmentFile).toBeVisible();
     await casePage.caseSave();
-    await expect(casePage.caseName).toBeVisible();
+    await expect(casePage.caseNameHeading(caseName)).toBeVisible();
 });

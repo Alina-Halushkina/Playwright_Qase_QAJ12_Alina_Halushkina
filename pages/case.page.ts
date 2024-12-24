@@ -1,4 +1,5 @@
 import {BasePage} from "./base.page";
+import {fakerEN} from "@faker-js/faker";
 
 export class CasePage extends BasePage {
 
@@ -26,11 +27,15 @@ export class CasePage extends BasePage {
         return this.page.getByRole('button', { name: 'Save', exact: true });
     }
 
-    get caseName() {
-        return this.page.getByRole('heading', {name: 'Test case 1'});
+    caseNameHeading(caseName: string) {
+        return this.page.getByRole('heading', {name: caseName});
     }
 
-    async createCase(caseName: string) {
+    get caseName() {
+        return `Case ${fakerEN.string.alpha(5)}`;
+    }
+
+    async createCase(caseName: string = this.caseName) {
         await this.caseNameField.fill(caseName);
         await this.caseAttachmentButton.click();
         await this.caseAttachmentBrowse.click();
