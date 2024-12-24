@@ -1,4 +1,5 @@
 import {BasePage} from "./base.page";
+import {fakerEN} from "@faker-js/faker";
 
 export class TestRunPage extends BasePage {
 
@@ -30,11 +31,15 @@ export class TestRunPage extends BasePage {
         return this.page.getByRole('button', { name: 'Start a run' });
     }
 
-    get testRunName() {
-        return this.page.getByRole('heading', {name: 'Test run 1'});
+    testRunNameHeading(testRunName: string = this.testRunName) {
+        return this.page.getByRole('heading', {name: testRunName});
     }
 
-    async createTestRun(testRunName: string) {
+    get testRunName() {
+        return `Test run ${fakerEN.string.alpha(5)}`;
+    }
+
+    async createTestRun(testRunName: string = this.testRunName) {
         await this.createTestRunButton.click();
         await this.testRunNameField.fill(testRunName);
         await this.selectCasesButton.click();

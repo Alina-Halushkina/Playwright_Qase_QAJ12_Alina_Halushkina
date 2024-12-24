@@ -10,6 +10,9 @@ let homePage: HomePage;
 let projectPage: ProjectPage;
 let casePage: CasePage;
 let testRunPage: TestRunPage;
+let projectName: string;
+let caseName: string;
+let testRunName: string;
 
 test.beforeEach(async ({page}) => {
     loginPage = new LoginPage(page);
@@ -17,20 +20,23 @@ test.beforeEach(async ({page}) => {
     projectPage = new ProjectPage(page);
     casePage = new CasePage(page);
     testRunPage = new TestRunPage(page);
+    projectName = homePage.projectName;
+    caseName = casePage.caseName;
+    testRunName = testRunPage.testRunName;
     await loginPage.goto();
     await loginPage.login();
     await expect(homePage.createProjectButton).toBeVisible();
-    await homePage.createProject('Test Project 1', 'TP');
-    await expect(projectPage.projectName).toBeVisible();
+    await homePage.createProject(projectName);
+    await expect(projectPage.projectNameHeading(projectName)).toBeVisible();
     await projectPage.createCaseButtonClick()
-    await casePage.createCase('Test case 1');
+    await casePage.createCase(caseName);
     await expect(casePage.caseAttachmentFile).toBeVisible();
     await casePage.caseSave();
-    await expect(casePage.caseNameHeading).toBeVisible();
+    await expect(casePage.caseNameHeading(caseName)).toBeVisible();
 });
 
 test('Create test run', async ({page}) => {
     await projectPage.testRunButtonClick();
-    await testRunPage.createTestRun('Test run 1');
-    await expect(testRunPage.testRunName).toBeVisible();
+    await testRunPage.createTestRun(testRunName);
+    await expect(testRunPage.testRunNameHeading(testRunName)).toBeVisible();
 });
