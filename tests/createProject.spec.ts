@@ -24,8 +24,8 @@ test('Create project', {tag: "@smoke"}, async ({page}) => {
 });
 
 test('Delete project', async ({page}) => {
-    await homePage.createProject('Test Project 1', 'TP');
-    await expect(projectPage.projectName).toBeVisible();
+    await homePage.createProject(projectName);
+    await expect(projectPage.projectNameHeading(projectName)).toBeVisible();
     await projectPage.deleteProject();
-    await expect(homePage.createdProjects).not.toContainText('Test Project 1');
+    await expect(homePage.createdProjects).not.toContainText(projectName);
 });
