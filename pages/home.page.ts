@@ -1,4 +1,5 @@
 import {BasePage} from "./base.page";
+import {fakerEN} from "@faker-js/faker";
 
 export class HomePage extends BasePage {
 
@@ -22,12 +23,20 @@ export class HomePage extends BasePage {
         return this.page.getByText('ProjectsCreate new');
     }
 
+    get projectName() {
+        return `Project ${fakerEN.string.sample(5)}`;
+    }
+
+    get projectCode() {
+        return fakerEN.string.sample(2).toUpperCase();
+    }
+
     async logout() {
         await this.userIcon.click();
         await this.logoutButton.click();
     }
 
-    async createProject(projectName: string, projectCode: string) {
+    async createProject(projectName: string = this.projectName, projectCode: string = this.projectCode) {
         await this.createProjectButton.click();
         await this.page.getByPlaceholder('For example: Web Application').fill(projectName);
         await this.page.getByPlaceholder('For example: WA').fill(projectCode);
