@@ -3,6 +3,7 @@ import {LoginPage} from "../pages/login.page";
 import {HomePage} from "../pages/home.page";
 import {ProjectPage} from "../pages/project.page";
 import {CasePage} from "../pages/case.page";
+import * as path from "node:path";
 
 let loginPage: LoginPage;
 let homePage: HomePage;
@@ -26,9 +27,12 @@ test.beforeEach(async ({page}) => {
 });
 
 test('Create case with attachment', {tag: "@smoke"}, async ({page}) => {
+    const filePath = path.dirname(__filename) + '/../files/scr test.png';
+    const fileName = filePath.replace(/^.*[\\/]/, '')
+
     await projectPage.createCaseButtonClick()
-    await casePage.createCase(caseName);
-    await expect(casePage.caseAttachmentFile).toBeVisible();
+    await casePage.createCase(caseName, filePath);
+    await expect(page.getByText(fileName)).toBeVisible();
     await casePage.caseSave();
     await expect(casePage.caseNameHeading(caseName)).toBeVisible();
 });

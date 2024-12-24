@@ -1,5 +1,6 @@
 import {BasePage} from "./base.page";
 import {fakerEN} from "@faker-js/faker";
+import * as path from "node:path";
 
 export class CasePage extends BasePage {
 
@@ -15,12 +16,8 @@ export class CasePage extends BasePage {
         return this.page.getByRole('button', { name: 'Add attachment' });
     }
 
-    get caseAttachmentBrowse() {
-        return this.page.getByRole('link', { name: 'Browse' });
-    }
-
-    get caseAttachmentFile() {
-        return this.page.getByRole('link', { name: 'disc.png 280.74 KB' });
+    get caseAttachmentUpload() {
+        return this.page.getByLabel('Upload attachment').locator('form');
     }
 
     get caseSaveButton() {
@@ -35,12 +32,18 @@ export class CasePage extends BasePage {
         return `Case ${fakerEN.string.alpha(5)}`;
     }
 
-    async createCase(caseName: string = this.caseName) {
+    async createCase(
+        caseName: string = this.caseName,
+        filePath: string = path.dirname(__filename) + '/../files/scr test.png'
+    ) {
         await this.caseNameField.fill(caseName);
         await this.caseAttachmentButton.click();
-        await this.caseAttachmentBrowse.click();
-        await this.caseAttachmentFile.click();
+        const fileChooserPromise = this.page.waitForEvent('filechooser');
+        await this.caseAttachmentUpload.click();
+        const fileChooser = await fileChooserPromise;
+        await fileChooser.setFiles(filePath);
     }
+
     async caseSave() {
         await this.caseSaveButton.click();
     }

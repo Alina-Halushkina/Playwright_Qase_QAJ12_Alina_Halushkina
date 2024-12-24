@@ -30,7 +30,6 @@ test.beforeEach(async ({page}) => {
     await expect(projectPage.projectNameHeading(projectName)).toBeVisible();
     await projectPage.createCaseButtonClick()
     await casePage.createCase(caseName);
-    await expect(casePage.caseAttachmentFile).toBeVisible();
     await casePage.caseSave();
     await expect(casePage.caseNameHeading(caseName)).toBeVisible();
 });
