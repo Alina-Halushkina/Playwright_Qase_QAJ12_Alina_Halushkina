@@ -24,11 +24,11 @@ export class HomePage extends BasePage {
     }
 
     get projectName() {
-        return `Project ${fakerEN.string.sample(5)}`;
+        return `Project ${fakerEN.string.alpha(5)}`;
     }
 
     get projectCode() {
-        return fakerEN.string.sample(2).toUpperCase();
+        return fakerEN.string.alpha(2).toUpperCase();
     }
 
     async logout() {

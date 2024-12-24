@@ -6,8 +6,8 @@ export class ProjectPage extends BasePage {
         return "https://app.qase.io/projects/TP";
     }
 
-    get projectName() {
-        return this.page.getByRole('heading', {name: 'Test Project 1'});
+    projectNameHeading(projectName: string) {
+        return this.page.getByRole('heading', {name: projectName});
     }
 
     get projectSettingsButton() {

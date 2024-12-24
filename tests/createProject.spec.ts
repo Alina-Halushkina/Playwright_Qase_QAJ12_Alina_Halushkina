@@ -6,19 +6,21 @@ import {ProjectPage} from "../pages/project.page";
 let loginPage: LoginPage;
 let homePage: HomePage;
 let projectPage: ProjectPage;
+let projectName: string;
 
 test.beforeEach(async ({page}) => {
     loginPage = new LoginPage(page);
     homePage = new HomePage(page);
     projectPage = new ProjectPage(page);
+    projectName = homePage.projectName;
     await loginPage.goto();
     await loginPage.login();
     await expect(homePage.createProjectButton).toBeVisible();
 });
 
 test('Create project', {tag: "@smoke"}, async ({page}) => {
-    await homePage.createProject('Test Project 1', 'TP');
-    await expect(projectPage.projectName).toBeVisible();
+    await homePage.createProject(projectName);
+    await expect(projectPage.projectNameHeading(projectName)).toBeVisible();
 });
 
 test('Delete project', async ({page}) => {
