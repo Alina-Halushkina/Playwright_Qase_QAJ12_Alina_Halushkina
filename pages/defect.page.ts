@@ -1,4 +1,5 @@
 import {BasePage} from "./base.page";
+import {fakerEN} from "@faker-js/faker";
 
 export class DefectPage extends BasePage {
 
@@ -22,11 +23,19 @@ export class DefectPage extends BasePage {
         return this.page.getByRole('button', { name: 'Create defect' });
     }
 
-    get defectName() {
-        return this.page.locator('div').filter({ hasText: /^Test defect 1$/ });
+    defectNameHeading(defectName: string = this.defectName) {
+        return this.page.getByRole('link', { name: defectName});
     }
 
-    async createDefect(defectName: string, defectDescription: string) {
+    get defectName() {
+        return `Defect ${fakerEN.string.alpha(5)}`;
+    }
+
+    get defectDescription() {
+        return `Defect descr ${fakerEN.string.alpha(8)}`;
+    }
+
+    async createDefect(defectName: string = this.defectName, defectDescription: string = this.defectDescription) {
         await this.createDefectButton.click();
         await this.defectNameField.fill(defectName);
         await this.defectDescriptionField.fill(defectDescription);
