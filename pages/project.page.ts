@@ -1,4 +1,5 @@
 import {BasePage} from "./base.page";
+import {fakerEN} from "@faker-js/faker";
 
 export class ProjectPage extends BasePage {
 
@@ -34,8 +35,12 @@ export class ProjectPage extends BasePage {
         return this.page.getByRole('button', { name: 'Create', exact: true });
     }
 
+    suiteNameHeading(suiteName: string) {
+        return this.page.getByRole('heading', {name: suiteName});
+    }
+
     get suiteName() {
-        return this.page.getByRole('heading', {name: 'Test suite 1'});
+        return `Suite ${fakerEN.string.alpha(5)}`;
     }
 
     get caseButtonCreate() {
