@@ -27,6 +27,11 @@ test.beforeEach(async ({page}) => {
     await expect(projectPage.projectNameHeading(projectName)).toBeVisible();
 });
 
+test.afterEach(async ({page}) => {
+    await projectPage.deleteProject();
+    await expect(homePage.createdProjects).not.toContainText(projectName);
+});
+
 test('Create environments', async ({page}) => {
     await projectPage.environmentsButtonClick();
     await environmentPage.environmentCreate(environmentName, slugName);

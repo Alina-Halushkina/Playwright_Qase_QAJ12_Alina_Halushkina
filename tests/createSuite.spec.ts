@@ -23,6 +23,11 @@ test.beforeEach(async ({page}) => {
     await expect(projectPage.projectNameHeading(projectName)).toBeVisible();
 });
 
+test.afterEach(async ({page}) => {
+    await projectPage.deleteProject();
+    await expect(homePage.createdProjects).not.toContainText(projectName);
+});
+
 test('Create suite', {tag: "@smoke"}, async ({page}) => {
     await projectPage.createSuite(suiteName);
     await expect(projectPage.suiteNameHeading(suiteName)).toBeVisible();

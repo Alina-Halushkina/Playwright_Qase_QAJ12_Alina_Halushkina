@@ -26,6 +26,11 @@ test.beforeEach(async ({page}) => {
     await expect(projectPage.projectNameHeading(projectName)).toBeVisible();
 });
 
+test.afterEach(async ({page}) => {
+    await projectPage.deleteProject();
+    await expect(homePage.createdProjects).not.toContainText(projectName);
+});
+
 test('Create case with attachment', {tag: "@smoke"}, async ({page}) => {
     const filePath = path.dirname(__filename) + '/../files/scr test.png';
     const fileName = filePath.replace(/^.*[\\/]/, '')

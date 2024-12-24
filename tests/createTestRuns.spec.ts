@@ -34,6 +34,11 @@ test.beforeEach(async ({page}) => {
     await expect(casePage.caseNameHeading(caseName)).toBeVisible();
 });
 
+test.afterEach(async ({page}) => {
+    await projectPage.deleteProject();
+    await expect(homePage.createdProjects).not.toContainText(projectName);
+});
+
 test('Create test run', async ({page}) => {
     await projectPage.testRunButtonClick();
     await testRunPage.createTestRun(testRunName);
