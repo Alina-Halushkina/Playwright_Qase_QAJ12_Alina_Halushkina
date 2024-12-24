@@ -16,7 +16,7 @@ export class PlanPage extends BasePage {
     }
 
     get addCasesButton() {
-        return this.page.getByRole('button', { name: ' Add cases' });
+        return this.page.locator('#edit-plan-add-cases-button');
     }
 
     get selectCasesButton() {
