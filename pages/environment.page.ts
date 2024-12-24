@@ -1,4 +1,5 @@
 import {BasePage} from "./base.page";
+import {fakerEN} from "@faker-js/faker";
 
 export class EnvironmentPage extends BasePage {
 
@@ -22,11 +23,19 @@ export class EnvironmentPage extends BasePage {
         return this.page.getByRole('button', { name: 'Create environment' });
     }
 
-    get environmentName() {
-        return this.page.getByRole('link', { name: 'Example env' });
+    environmentNameHeading(environmentName: string = this.environmentName) {
+        return this.page.getByRole('link', { name: environmentName });
     }
 
-    async environmentCreate(environmentName: string, slugName: string) {
+    get environmentName() {
+        return `Environment ${fakerEN.string.alpha(5)}`;
+    }
+
+    get slugName() {
+        return `Environment ${fakerEN.string.alpha(6)}`;
+    }
+
+    async environmentCreate(environmentName: string = this.environmentName, slugName: string = this.slugName) {
         await this.createNewEnvironmentButton.click();
         await this.environmentNameField.fill(environmentName);
         await this.slugNameField.fill(slugName);

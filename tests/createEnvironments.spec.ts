@@ -7,22 +7,28 @@ import {EnvironmentPage} from "../pages/environment.page";
 let loginPage: LoginPage;
 let homePage: HomePage;
 let projectPage: ProjectPage;
+let projectName: string;
 let environmentPage: EnvironmentPage;
+let environmentName: string;
+let slugName: string;
 
 test.beforeEach(async ({page}) => {
     loginPage = new LoginPage(page);
     homePage = new HomePage(page);
     projectPage = new ProjectPage(page);
     environmentPage = new EnvironmentPage(page);
+    projectName = homePage.projectName;
+    environmentName = environmentPage.environmentName;
+    slugName = environmentPage.slugName;
     await loginPage.goto();
     await loginPage.login();
     await expect(homePage.createProjectButton).toBeVisible();
-    await homePage.createProject('Test Project 1', 'TP');
-    await expect(projectPage.projectName).toBeVisible();
+    await homePage.createProject(projectName);
+    await expect(projectPage.projectNameHeading(projectName)).toBeVisible();
 });
 
 test('Create environments', async ({page}) => {
     await projectPage.environmentsButtonClick();
-    await environmentPage.environmentCreate('Example env', 'prod');
-    await expect(environmentPage.environmentName).toBeVisible();
+    await environmentPage.environmentCreate(environmentName, slugName);
+    await expect(environmentPage.environmentNameHeading(environmentName)).toBeVisible();
 });
