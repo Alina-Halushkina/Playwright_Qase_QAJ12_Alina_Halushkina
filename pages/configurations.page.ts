@@ -1,4 +1,5 @@
 import {BasePage} from "./base.page";
+import {fakerEN} from "@faker-js/faker";
 
 export class ConfigurationsPage extends BasePage {
 
@@ -18,8 +19,8 @@ export class ConfigurationsPage extends BasePage {
         return this.page.getByRole('button', { name: 'Create', exact: true });
     }
 
-    get configurationGroupName() {
-        return this.page.locator('div').filter({ hasText: /^Operating system$/ }).first();
+    configurationGroupNameHeading(configurationGroupName: string = this.configurationGroupName) {
+        return this.page.getByText(configurationGroupName);
     }
 
     get configurationCreateButton() {
@@ -30,23 +31,35 @@ export class ConfigurationsPage extends BasePage {
         return this.page.getByPlaceholder('Configuration title');
     }
 
-    get firstConfiguration() {
-        return this.page.locator('div').filter({ hasText: /^Mac OS$/ }).nth(1);
+    get configurationGroupName() {
+        return `Conf group ${fakerEN.string.alpha(5)}`;
     }
 
-    get secondConfiguration() {
-        return this.page.locator('div').filter({ hasText: /^Windows OS$/ });
+    get configurationName() {
+        return `Conf ${fakerEN.string.alpha(5)}`;
     }
 
-    async configurationGroupCreate(configurationGroupTitle: string) {
+    get configurationName2() {
+        return `Conf ${fakerEN.string.alpha(6)}`;
+    }
+
+    firstConfigurationHeading(configurationName: string = this.configurationName) {
+        return this.page.getByText(configurationName);
+    }
+
+    secondConfigurationHeading(configurationName2: string = this.configurationName2) {
+        return this.page.getByText(configurationName2);
+    }
+
+    async configurationGroupCreate(configurationGroupName: string = this.configurationGroupName) {
         await this.configurationGroupButton.click();
-        await this.configurationGroupTitleField.fill(configurationGroupTitle);
+        await this.configurationGroupTitleField.fill(configurationGroupName);
         await this.configurationGroupCreateButton.click();
     }
 
-    async configurationCreate(configurationTitle: string) {
+    async configurationCreate(configurationName: string = this.configurationName) {
         await this.configurationCreateButton.click();
-        await this.configurationTitleField.fill(configurationTitle);
+        await this.configurationTitleField.fill(configurationName);
         await this.page.keyboard.press('Enter');
     }
 }
