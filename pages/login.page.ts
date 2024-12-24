@@ -26,16 +26,9 @@ export class LoginPage extends BasePage {
         return this.page.getByText('Security notice: The password');
     }
 
-    async login() {
-        await this.emailField.fill(process.env.EMAIL);
-        await this.passwordField.fill(process.env.PASSWORD);
-        await this.loginButton.click();
-    }
-
-    async loginWithData(email: string, password: string) {
+    async login(email: string = process.env.EMAIL, password: string = process.env.PASSWORD) {
         await this.emailField.fill(email);
         await this.passwordField.fill(password);
         await this.loginButton.click();
     }
-
 }

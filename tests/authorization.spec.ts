@@ -19,12 +19,12 @@ test('Login with correct email and password', {tag: "@smoke"}, async ({ page }) 
 });
 
 test('Login with incorrect email and password', async ({ page }) => {
-  await loginPage.loginWithData('test@gmail.com','Testing1749!');
+  await loginPage.login('test@gmail.com','Testing1749!');
   await expect(loginPage.incorrectEmailMessage).toBeVisible();
 });
 
 test('Login with incorrect email and simple password', async ({ page }) => {
-  await loginPage.loginWithData('test@gmail.com','123');
+  await loginPage.login('test@gmail.com','123');
   await expect(loginPage.simplePasswordMessage).toBeVisible();
 });
 
