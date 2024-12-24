@@ -1,4 +1,5 @@
 import {BasePage} from "./base.page";
+import {fakerEN} from "@faker-js/faker";
 
 export class PlanPage extends BasePage {
 
@@ -31,7 +32,11 @@ export class PlanPage extends BasePage {
     }
 
     get planName() {
-        return this.page.getByRole('link', { name: 'Test plan 1' });
+        return `Plan ${fakerEN.string.alpha(5)}`;
+    }
+
+    planNameHeading(planName: string) {
+        return this.page.getByRole('link', { name: planName});
     }
 
     async createPlan(planName: string) {
