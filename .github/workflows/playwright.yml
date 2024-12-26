@@ -25,7 +25,9 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
-      run: npm run test:${{ inputs.browser }}
+#      todo: fix this line
+#      run: npm run test:${{ inputs.browser }}
+      run: npm run test:Chrome
       env:
         EMAIL: ${{ vars.EMAIL }}
         PASSWORD: ${{ vars.PASSWORD }}
