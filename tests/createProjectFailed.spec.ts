@@ -24,10 +24,10 @@ test.afterEach(async ({page}) => {
     await expect(homePage.createdProjects).not.toContainText(projectName);
 });
 
-test('Create project failes', {tag: "@smoke"}, async ({page}) => {
-    await allure.epic("Project management");
-    await allure.story("As an active user, I want to successfully create a project");
-    await allure.tags("smoke");
+test('Create project failed', async ({page}) => {
+    await allure.epic("Web interface");
+    await allure.feature("Create project failed");
+    await allure.severity('Trivial');
 
     await homePage.createProject(projectName);
     await expect(projectPage.projectNameHeading('123')).toBeVisible();

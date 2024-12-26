@@ -4,6 +4,7 @@ import {HomePage} from "../pages/home.page";
 import {ProjectPage} from "../pages/project.page";
 import {CasePage} from "../pages/case.page";
 import {PlanPage} from "../pages/plan.page";
+import * as allure from "allure-js-commons";
 
 let loginPage: LoginPage;
 let homePage: HomePage;
@@ -40,6 +41,10 @@ test.afterEach(async ({page}) => {
 });
 
 test('Create plan', async ({page}) => {
+    await allure.epic("Web interface");
+    await allure.feature("Create plan");
+    await allure.severity('Normal')
+
     await projectPage.plansButtonClick();
     await planPage.createPlan(planName);
     await expect(planPage.planNameHeading(planName)).toBeVisible();

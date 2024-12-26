@@ -4,6 +4,7 @@ import {HomePage} from "../pages/home.page";
 import {ProjectPage} from "../pages/project.page";
 import {CasePage} from "../pages/case.page";
 import * as path from "node:path";
+import * as allure from "allure-js-commons";
 
 let loginPage: LoginPage;
 let homePage: HomePage;
@@ -32,6 +33,11 @@ test.afterEach(async ({page}) => {
 });
 
 test('Create case with attachment', {tag: "@smoke"}, async ({page}) => {
+    await allure.epic("Web interface");
+    await allure.feature("Create case");
+    await allure.severity('Critical')
+    await allure.tag("smoke")
+
     const filePath = path.dirname(__filename) + '/../files/scr test.png';
     const fileName = filePath.replace(/^.*[\\/]/, '')
 

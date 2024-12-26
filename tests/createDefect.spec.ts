@@ -4,6 +4,7 @@ import {HomePage} from "../pages/home.page";
 import {ProjectPage} from "../pages/project.page";
 import {CasePage} from "../pages/case.page";
 import {DefectPage} from "../pages/defect.page";
+import * as allure from "allure-js-commons";
 
 let loginPage: LoginPage;
 let homePage: HomePage;
@@ -34,6 +35,10 @@ test.afterEach(async ({page}) => {
 });
 
 test('Create defect', async ({page}) => {
+    await allure.epic("Web interface");
+    await allure.feature("Create defect");
+    await allure.severity('Normal')
+
     await projectPage.defectsButtonClick();
     await defectPage.createDefect(defectName, defectDescription);
     await expect(defectPage.defectNameHeading(defectName)).toBeVisible();

@@ -3,6 +3,7 @@ import {LoginPage} from "../pages/login.page";
 import {HomePage} from "../pages/home.page";
 import {ProjectPage} from "../pages/project.page";
 import {CasePage} from "../pages/case.page";
+import * as allure from "allure-js-commons";
 
 let loginPage: LoginPage;
 let homePage: HomePage;
@@ -29,6 +30,11 @@ test.afterEach(async ({page}) => {
 });
 
 test('Create suite', {tag: "@smoke"}, async ({page}) => {
+    await allure.epic("Web interface");
+    await allure.feature("Create suite");
+    await allure.severity('Critical');
+    await allure.tag("smoke")
+
     await projectPage.createSuite(suiteName);
     await expect(projectPage.suiteNameHeading(suiteName)).toBeVisible();
 });

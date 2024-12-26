@@ -2,6 +2,7 @@ import {test, expect} from '@playwright/test';
 import {LoginPage} from "../pages/login.page";
 import {HomePage} from "../pages/home.page";
 import {ProjectPage} from "../pages/project.page";
+import * as allure from "allure-js-commons";
 
 let loginPage: LoginPage;
 let homePage: HomePage;
@@ -24,6 +25,11 @@ test.afterEach(async ({page}) => {
 });
 
 test('Create project', {tag: "@smoke"}, async ({page}) => {
+    await allure.epic("Web interface");
+    await allure.feature("Create project");
+    await allure.severity('Blocker');
+    await allure.tag("smoke")
+
     await homePage.createProject(projectName);
     await expect(projectPage.projectNameHeading(projectName)).toBeVisible();
 });

@@ -4,6 +4,7 @@ import {HomePage} from "../pages/home.page";
 import {ProjectPage} from "../pages/project.page";
 import {CasePage} from "../pages/case.page";
 import {TestRunPage} from "../pages/testRun.page";
+import * as allure from "allure-js-commons";
 
 let loginPage: LoginPage;
 let homePage: HomePage;
@@ -40,6 +41,10 @@ test.afterEach(async ({page}) => {
 });
 
 test('Create test run', async ({page}) => {
+    await allure.epic("Web interface");
+    await allure.feature("Create test run");
+    await allure.severity('Normal');
+
     await projectPage.testRunButtonClick();
     await testRunPage.createTestRun(testRunName);
     await expect(testRunPage.testRunNameHeading(testRunName)).toBeVisible();

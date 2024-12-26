@@ -3,6 +3,7 @@ import {LoginPage} from "../pages/login.page";
 import {HomePage} from "../pages/home.page";
 import {ProjectPage} from "../pages/project.page";
 import {ConfigurationsPage} from "../pages/configurations.page";
+import * as allure from "allure-js-commons";
 
 let loginPage: LoginPage;
 let homePage: HomePage;
@@ -35,6 +36,10 @@ test.afterEach(async ({page}) => {
 });
 
 test('Create configuration', async ({page}) => {
+    await allure.epic("Web interface");
+    await allure.feature("Create configuration");
+    await allure.severity('Normal')
+
     await projectPage.configurationButtonClick();
     await configurationsPage.configurationGroupCreate(configurationGroupName);
     await expect(configurationsPage.configurationGroupNameHeading(configurationGroupName)).toBeVisible();

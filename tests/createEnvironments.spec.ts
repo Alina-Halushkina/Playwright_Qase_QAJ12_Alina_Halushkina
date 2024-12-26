@@ -3,6 +3,7 @@ import {LoginPage} from "../pages/login.page";
 import {HomePage} from "../pages/home.page";
 import {ProjectPage} from "../pages/project.page";
 import {EnvironmentPage} from "../pages/environment.page";
+import * as allure from "allure-js-commons";
 
 let loginPage: LoginPage;
 let homePage: HomePage;
@@ -33,6 +34,10 @@ test.afterEach(async ({page}) => {
 });
 
 test('Create environments', async ({page}) => {
+    await allure.epic("Web interface");
+    await allure.feature("Create environments");
+    await allure.severity('Normal')
+
     await projectPage.environmentsButtonClick();
     await environmentPage.createEnvironment(environmentName, slugName);
     await expect(environmentPage.environmentNameHeading(environmentName)).toBeVisible();
