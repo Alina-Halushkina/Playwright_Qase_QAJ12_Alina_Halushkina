@@ -1,5 +1,6 @@
 import {BasePage} from "./base.page";
 import {fakerEN} from "@faker-js/faker";
+import * as allure from "allure-js-commons";
 
 export class DefectPage extends BasePage {
 
@@ -36,9 +37,11 @@ export class DefectPage extends BasePage {
     }
 
     async createDefect(defectName: string = this.defectName, defectDescription: string = this.defectDescription) {
-        await this.createDefectButton.click();
-        await this.defectNameField.fill(defectName);
-        await this.defectDescriptionField.fill(defectDescription);
-        await this.createDefectButtonConfirm.click();
+        await allure.step('Create defect', async () => {
+            await this.createDefectButton.click();
+            await this.defectNameField.fill(defectName);
+            await this.defectDescriptionField.fill(defectDescription);
+            await this.createDefectButtonConfirm.click();
+        })
     }
 }

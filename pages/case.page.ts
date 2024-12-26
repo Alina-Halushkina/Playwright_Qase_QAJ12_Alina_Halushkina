@@ -1,6 +1,7 @@
 import {BasePage} from "./base.page";
 import {fakerEN} from "@faker-js/faker";
 import * as path from "node:path";
+import * as allure from "allure-js-commons";
 
 export class CasePage extends BasePage {
 
@@ -36,15 +37,19 @@ export class CasePage extends BasePage {
         caseName: string = this.caseName,
         filePath: string = path.dirname(__filename) + '/../files/scr test.png'
     ) {
-        await this.caseNameField.fill(caseName);
-        await this.caseAttachmentButton.click();
-        const fileChooserPromise = this.page.waitForEvent('filechooser');
-        await this.caseAttachmentUpload.click();
-        const fileChooser = await fileChooserPromise;
-        await fileChooser.setFiles(filePath);
+        await allure.step('Create case', async () => {
+            await this.caseNameField.fill(caseName);
+            await this.caseAttachmentButton.click();
+            const fileChooserPromise = this.page.waitForEvent('filechooser');
+            await this.caseAttachmentUpload.click();
+            const fileChooser = await fileChooserPromise;
+            await fileChooser.setFiles(filePath);
+        })
     }
 
     async caseSave() {
-        await this.caseSaveButton.click();
+        await allure.step('Save case', async () => {
+            await this.caseSaveButton.click();
+        })
     }
 }

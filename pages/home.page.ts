@@ -1,5 +1,6 @@
 import {BasePage} from "./base.page";
 import {fakerEN} from "@faker-js/faker";
+import * as allure from "allure-js-commons";
 
 export class HomePage extends BasePage {
 
@@ -32,14 +33,18 @@ export class HomePage extends BasePage {
     }
 
     async logout() {
-        await this.userIcon.click();
-        await this.logoutButton.click();
+        await allure.step('Logout', async () => {
+            await this.userIcon.click();
+            await this.logoutButton.click();
+        });
     }
 
     async createProject(projectName: string = this.projectName, projectCode: string = this.projectCode) {
-        await this.createProjectButton.click();
-        await this.page.getByPlaceholder('For example: Web Application').fill(projectName);
-        await this.page.getByPlaceholder('For example: WA').fill(projectCode);
-        await this.page.getByRole('button', {name: 'Create project'}).click();
+        await allure.step('Create project', async () => {
+            await this.createProjectButton.click();
+            await this.page.getByPlaceholder('For example: Web Application').fill(projectName);
+            await this.page.getByPlaceholder('For example: WA').fill(projectCode);
+            await this.page.getByRole('button', {name: 'Create project'}).click();
+        });
     }
 }

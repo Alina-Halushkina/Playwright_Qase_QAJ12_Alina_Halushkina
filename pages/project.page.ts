@@ -1,5 +1,6 @@
 import {BasePage} from "./base.page";
 import {fakerEN} from "@faker-js/faker";
+import * as allure from "allure-js-commons";
 
 export class ProjectPage extends BasePage {
 
@@ -68,15 +69,19 @@ export class ProjectPage extends BasePage {
     }
 
     async deleteProject() {
-        await this.projectSettingsButton.click();
-        await this.projectDeleteButton.click();
-        await this.projectDeleteConfirmButton.click();
+        await allure.step('Create plan', async () => {
+            await this.projectSettingsButton.click();
+            await this.projectDeleteButton.click();
+            await this.projectDeleteConfirmButton.click();
+        })
     }
 
     async createSuite(suiteName: string) {
-        await this.createSuiteButton.click();
-        await this.suiteNameField.fill(suiteName);
-        await this.suiteButtonCreate.click();
+        await allure.step('Create plan', async () => {
+            await this.createSuiteButton.click();
+            await this.suiteNameField.fill(suiteName);
+            await this.suiteButtonCreate.click();
+        })
     }
 
     async createCaseButtonClick() {

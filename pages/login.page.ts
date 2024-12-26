@@ -1,4 +1,5 @@
 import {BasePage} from "./base.page";
+import * as allure from "allure-js-commons";
 
 export class LoginPage extends BasePage {
 
@@ -27,8 +28,10 @@ export class LoginPage extends BasePage {
     }
 
     async login(email: string = process.env.EMAIL, password: string = process.env.PASSWORD) {
-        await this.emailField.fill(email);
-        await this.passwordField.fill(password);
-        await this.loginButton.click();
+        await allure.step('Login', async () => {
+            await this.emailField.fill(email);
+            await this.passwordField.fill(password);
+            await this.loginButton.click();
+        });
     }
 }

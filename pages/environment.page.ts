@@ -1,5 +1,6 @@
 import {BasePage} from "./base.page";
 import {fakerEN} from "@faker-js/faker";
+import * as allure from "allure-js-commons";
 
 export class EnvironmentPage extends BasePage {
 
@@ -35,10 +36,12 @@ export class EnvironmentPage extends BasePage {
         return `Environment ${fakerEN.string.alpha(6)}`;
     }
 
-    async environmentCreate(environmentName: string = this.environmentName, slugName: string = this.slugName) {
-        await this.createNewEnvironmentButton.click();
-        await this.environmentNameField.fill(environmentName);
-        await this.slugNameField.fill(slugName);
-        await this.environmentButtonCreate.click();
+    async createEnvironment(environmentName: string = this.environmentName, slugName: string = this.slugName) {
+        await allure.step('Create environment', async () => {
+            await this.createNewEnvironmentButton.click();
+            await this.environmentNameField.fill(environmentName);
+            await this.slugNameField.fill(slugName);
+            await this.environmentButtonCreate.click();
+        })
     }
 }

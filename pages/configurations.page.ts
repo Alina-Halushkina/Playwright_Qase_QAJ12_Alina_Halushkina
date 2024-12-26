@@ -1,5 +1,6 @@
 import {BasePage} from "./base.page";
 import {fakerEN} from "@faker-js/faker";
+import * as allure from "allure-js-commons";
 
 export class ConfigurationsPage extends BasePage {
 
@@ -52,14 +53,18 @@ export class ConfigurationsPage extends BasePage {
     }
 
     async configurationGroupCreate(configurationGroupName: string = this.configurationGroupName) {
-        await this.configurationGroupButton.click();
-        await this.configurationGroupTitleField.fill(configurationGroupName);
-        await this.configurationGroupCreateButton.click();
+        await allure.step('Create configuration group', async () => {
+            await this.configurationGroupButton.click();
+            await this.configurationGroupTitleField.fill(configurationGroupName);
+            await this.configurationGroupCreateButton.click();
+        })
     }
 
     async configurationCreate(configurationName: string = this.configurationName) {
-        await this.configurationCreateButton.click();
-        await this.configurationTitleField.fill(configurationName);
-        await this.page.keyboard.press('Enter');
+        await allure.step('Create configuration', async () => {
+            await this.configurationCreateButton.click();
+            await this.configurationTitleField.fill(configurationName);
+            await this.page.keyboard.press('Enter');
+        })
     }
 }

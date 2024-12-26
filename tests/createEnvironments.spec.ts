@@ -34,6 +34,6 @@ test.afterEach(async ({page}) => {
 
 test('Create environments', async ({page}) => {
     await projectPage.environmentsButtonClick();
-    await environmentPage.environmentCreate(environmentName, slugName);
+    await environmentPage.createEnvironment(environmentName, slugName);
     await expect(environmentPage.environmentNameHeading(environmentName)).toBeVisible();
 });

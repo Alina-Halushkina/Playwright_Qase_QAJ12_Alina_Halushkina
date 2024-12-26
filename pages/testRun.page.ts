@@ -1,5 +1,6 @@
 import {BasePage} from "./base.page";
 import {fakerEN} from "@faker-js/faker";
+import * as allure from "allure-js-commons";
 
 export class TestRunPage extends BasePage {
 
@@ -40,12 +41,14 @@ export class TestRunPage extends BasePage {
     }
 
     async createTestRun(testRunName: string = this.testRunName) {
-        await this.createTestRunButton.click();
-        await this.testRunNameField.fill(testRunName);
-        await this.selectCasesButton.click();
-        await this.selectAllCasesButton.click();
-        await this.selectCasesButtonConfirm.click();
-        await this.testRunConfirmButton.click();
+        await allure.step('Create plan', async () => {
+            await this.createTestRunButton.click();
+            await this.testRunNameField.fill(testRunName);
+            await this.selectCasesButton.click();
+            await this.selectAllCasesButton.click();
+            await this.selectCasesButtonConfirm.click();
+            await this.testRunConfirmButton.click();
+        })
     }
 
 }
