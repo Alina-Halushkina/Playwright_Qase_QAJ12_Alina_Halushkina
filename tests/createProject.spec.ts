@@ -18,14 +18,12 @@ test.beforeEach(async ({page}) => {
     await expect(homePage.createProjectButton).toBeVisible();
 });
 
+test.afterEach(async ({page}) => {
+    await projectPage.deleteProject();
+    await expect(homePage.createdProjects).not.toContainText(projectName);
+});
+
 test('Create project', {tag: "@smoke"}, async ({page}) => {
     await homePage.createProject(projectName);
     await expect(projectPage.projectNameHeading(projectName)).toBeVisible();
-});
-
-test('Delete project', async ({page}) => {
-    await homePage.createProject(projectName);
-    await expect(projectPage.projectNameHeading(projectName)).toBeVisible();
-    await projectPage.deleteProject();
-    await expect(homePage.createdProjects).not.toContainText(projectName);
 });
