@@ -134,3 +134,5 @@ dist
 /playwright/.cache/
 
 .idea/
+allure-results
+allure-report
