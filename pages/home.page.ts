@@ -24,14 +24,6 @@ export class HomePage extends BasePage {
         return this.page.getByText('ProjectsCreate new');
     }
 
-    get projectName() {
-        return `Project ${fakerEN.string.alpha(5)}`;
-    }
-
-    get projectCode() {
-        return fakerEN.string.alpha(2).toUpperCase();
-    }
-
     async logout() {
         await allure.step('Logout', async () => {
             await this.userIcon.click();
@@ -39,7 +31,7 @@ export class HomePage extends BasePage {
         });
     }
 
-    async createProject(projectName: string = this.projectName, projectCode: string = this.projectCode) {
+    async createProject(projectName: string, projectCode: string) {
         await allure.step('Create project', async () => {
             await this.createProjectButton.click();
             await this.page.getByPlaceholder('For example: Web Application').fill(projectName);
