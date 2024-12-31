@@ -8,13 +8,11 @@ import {fakerEN} from "@faker-js/faker";
 let loginPage: LoginPage;
 let homePage: HomePage;
 let projectPage: ProjectPage;
-let projectName: string;
 
 test.beforeEach(async ({page}) => {
     loginPage = new LoginPage(page);
     homePage = new HomePage(page);
     projectPage = new ProjectPage(page);
-    projectName = homePage.projectName;
     await loginPage.goto();
     await loginPage.login();
     await expect(homePage.createProjectButton).toBeVisible();
@@ -31,6 +29,8 @@ test('Create project failed', async ({page}) => {
     await allure.feature("Create project failed");
     await allure.severity('Trivial');
 
-    await homePage.createProject(projectName);
+    const projectName = `Project ${fakerEN.string.alpha(5)}`;
+    const projectCode = fakerEN.string.alpha(2).toUpperCase();
+    await homePage.createProject(projectName, projectCode);
     await expect(projectPage.projectNameHeading('123')).toBeVisible();
 });
