@@ -29,12 +29,8 @@ export class CasePage extends BasePage {
         return this.page.getByRole('heading', {name: caseName});
     }
 
-    get caseName() {
-        return `Case ${fakerEN.string.alpha(5)}`;
-    }
-
     async createCase(
-        caseName: string = this.caseName,
+        caseName: string,
         filePath: string = path.dirname(__filename) + '/../files/scr test.png'
     ) {
         await allure.step('Create case', async () => {
