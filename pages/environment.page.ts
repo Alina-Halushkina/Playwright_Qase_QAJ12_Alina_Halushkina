@@ -24,19 +24,11 @@ export class EnvironmentPage extends BasePage {
         return this.page.getByRole('button', { name: 'Create environment' });
     }
 
-    environmentNameHeading(environmentName: string = this.environmentName) {
+    environmentNameHeading(environmentName: string) {
         return this.page.getByRole('link', { name: environmentName });
     }
 
-    get environmentName() {
-        return `Environment ${fakerEN.string.alpha(5)}`;
-    }
-
-    get slugName() {
-        return `Environment ${fakerEN.string.alpha(6)}`;
-    }
-
-    async createEnvironment(environmentName: string = this.environmentName, slugName: string = this.slugName) {
+    async createEnvironment(environmentName: string, slugName: string) {
         await allure.step('Create environment', async () => {
             await this.createNewEnvironmentButton.click();
             await this.environmentNameField.fill(environmentName);

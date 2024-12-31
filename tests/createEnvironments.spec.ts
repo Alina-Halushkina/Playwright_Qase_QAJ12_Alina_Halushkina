@@ -9,23 +9,20 @@ import {fakerEN} from "@faker-js/faker";
 let loginPage: LoginPage;
 let homePage: HomePage;
 let projectPage: ProjectPage;
-let projectName: string;
 let environmentPage: EnvironmentPage;
-let environmentName: string;
-let slugName: string;
 
 test.beforeEach(async ({page}) => {
     loginPage = new LoginPage(page);
     homePage = new HomePage(page);
     projectPage = new ProjectPage(page);
     environmentPage = new EnvironmentPage(page);
-    projectName = homePage.projectName;
-    environmentName = environmentPage.environmentName;
-    slugName = environmentPage.slugName;
+
     await loginPage.goto();
     await loginPage.login();
-    await expect(homePage.createProjectButton).toBeVisible();
-    await homePage.createProject(projectName);
+
+    const projectName =`Project ${fakerEN.string.alpha(5)}`;
+    const projectCode = fakerEN.string.alpha(2).toUpperCase();
+    await homePage.createProject(projectName, projectCode);
     await expect(projectPage.projectNameHeading(projectName)).toBeVisible();
 });
 
@@ -39,6 +36,9 @@ test('Create environments', async ({page}) => {
     await allure.epic("Web interface");
     await allure.feature("Create environments");
     await allure.severity('Normal')
+
+    const environmentName = `Environment ${fakerEN.string.alpha(5)}`;
+    const slugName = `Environment ${fakerEN.string.alpha(5)}`;
 
     await projectPage.environmentsButtonClick();
     await environmentPage.createEnvironment(environmentName, slugName);
