@@ -32,15 +32,11 @@ export class TestRunPage extends BasePage {
         return this.page.getByRole('button', { name: 'Start a run' });
     }
 
-    testRunNameHeading(testRunName: string = this.testRunName) {
+    testRunNameHeading(testRunName: string) {
         return this.page.getByRole('heading', {name: testRunName});
     }
 
-    get testRunName() {
-        return `Test run ${fakerEN.string.alpha(5)}`;
-    }
-
-    async createTestRun(testRunName: string = this.testRunName) {
+    async createTestRun(testRunName: string) {
         await allure.step('Create plan', async () => {
             await this.createTestRunButton.click();
             await this.testRunNameField.fill(testRunName);

@@ -12,9 +12,6 @@ let homePage: HomePage;
 let projectPage: ProjectPage;
 let casePage: CasePage;
 let testRunPage: TestRunPage;
-let projectName: string;
-let caseName: string;
-let testRunName: string;
 
 test.beforeEach(async ({page}) => {
     loginPage = new LoginPage(page);
@@ -22,14 +19,16 @@ test.beforeEach(async ({page}) => {
     projectPage = new ProjectPage(page);
     casePage = new CasePage(page);
     testRunPage = new TestRunPage(page);
-    projectName = homePage.projectName;
-    caseName = casePage.caseName;
-    testRunName = testRunPage.testRunName;
+
     await loginPage.goto();
     await loginPage.login();
-    await expect(homePage.createProjectButton).toBeVisible();
-    await homePage.createProject(projectName);
+
+    const projectName =`Project ${fakerEN.string.alpha(5)}`;
+    const projectCode = fakerEN.string.alpha(2).toUpperCase();
+    await homePage.createProject(projectName, projectCode);
     await expect(projectPage.projectNameHeading(projectName)).toBeVisible();
+
+    const caseName = `Case ${fakerEN.string.alpha(5)}`;
     await projectPage.createCaseButtonClick()
     await casePage.createCase(caseName);
     await casePage.caseSave();
@@ -47,6 +46,7 @@ test('Create test run', async ({page}) => {
     await allure.feature("Create test run");
     await allure.severity('Normal');
 
+    const testRunName = `Test Run ${fakerEN.string.alpha(5)}`;
     await projectPage.testRunButtonClick();
     await testRunPage.createTestRun(testRunName);
     await expect(testRunPage.testRunNameHeading(testRunName)).toBeVisible();
