@@ -40,10 +40,6 @@ export class ProjectPage extends BasePage {
         return this.page.getByRole('heading', {name: suiteName});
     }
 
-    get suiteName() {
-        return `Suite ${fakerEN.string.alpha(5)}`;
-    }
-
     get caseButtonCreate() {
         return this.page.getByRole('button', {name: 'Case', exact: true});
     }

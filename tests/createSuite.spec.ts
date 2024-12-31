@@ -9,19 +9,17 @@ import {fakerEN} from "@faker-js/faker";
 let loginPage: LoginPage;
 let homePage: HomePage;
 let projectPage: ProjectPage;
-let projectName: string;
-let suiteName: string;
 
 test.beforeEach(async ({page}) => {
     loginPage = new LoginPage(page);
     homePage = new HomePage(page);
     projectPage = new ProjectPage(page);
-    projectName = homePage.projectName;
-    suiteName = projectPage.suiteName;
+
     await loginPage.goto();
     await loginPage.login();
-    await expect(homePage.createProjectButton).toBeVisible();
-    await homePage.createProject(projectName);
+    const projectName =`Project ${fakerEN.string.alpha(5)}`;
+    const projectCode = fakerEN.string.alpha(2).toUpperCase();
+    await homePage.createProject(projectName, projectCode);
     await expect(projectPage.projectNameHeading(projectName)).toBeVisible();
 });
 
@@ -37,6 +35,7 @@ test('Create suite', {tag: "@smoke"}, async ({page}) => {
     await allure.severity('Critical');
     await allure.tag("smoke")
 
+    const suiteName = `Suite ${fakerEN.string.alpha(5)}`;
     await projectPage.createSuite(suiteName);
     await expect(projectPage.suiteNameHeading(suiteName)).toBeVisible();
 });
