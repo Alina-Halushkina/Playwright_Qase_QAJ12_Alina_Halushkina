@@ -20,6 +20,7 @@ test.beforeEach(async ({page}) => {
 
     await loginPage.goto();
     await loginPage.login();
+
     const projectName =`Project ${fakerEN.string.alpha(5)}`;
     const projectCode = fakerEN.string.alpha(2).toUpperCase();
     await homePage.createProject(projectName, projectCode);

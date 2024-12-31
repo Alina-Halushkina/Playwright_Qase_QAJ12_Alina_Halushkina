@@ -24,19 +24,11 @@ export class DefectPage extends BasePage {
         return this.page.getByRole('button', { name: 'Create defect' });
     }
 
-    defectNameHeading(defectName: string = this.defectName) {
+    defectNameHeading(defectName: string) {
         return this.page.getByRole('link', { name: defectName});
     }
 
-    get defectName() {
-        return `Defect ${fakerEN.string.alpha(5)}`;
-    }
-
-    get defectDescription() {
-        return `Defect descr ${fakerEN.string.alpha(8)}`;
-    }
-
-    async createDefect(defectName: string = this.defectName, defectDescription: string = this.defectDescription) {
+    async createDefect(defectName: string, defectDescription: string) {
         await allure.step('Create defect', async () => {
             await this.createDefectButton.click();
             await this.defectNameField.fill(defectName);

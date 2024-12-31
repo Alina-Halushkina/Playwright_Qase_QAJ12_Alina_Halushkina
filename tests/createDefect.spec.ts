@@ -11,22 +11,19 @@ let loginPage: LoginPage;
 let homePage: HomePage;
 let projectPage: ProjectPage;
 let defectPage: DefectPage;
-let projectName: string;
-let defectName: string;
-let defectDescription: string;
 
 test.beforeEach(async ({page}) => {
     loginPage = new LoginPage(page);
     homePage = new HomePage(page);
     projectPage = new ProjectPage(page);
     defectPage = new DefectPage(page);
-    projectName = homePage.projectName;
-    defectName = defectPage.defectName;
-    defectDescription = defectPage.defectDescription;
+
     await loginPage.goto();
     await loginPage.login();
-    await expect(homePage.createProjectButton).toBeVisible();
-    await homePage.createProject(projectName);
+
+    const projectName =`Project ${fakerEN.string.alpha(5)}`;
+    const projectCode = fakerEN.string.alpha(2).toUpperCase();
+    await homePage.createProject(projectName, projectCode);
     await expect(projectPage.projectNameHeading(projectName)).toBeVisible();
 });
 
@@ -41,6 +38,8 @@ test('Create defect', async ({page}) => {
     await allure.feature("Create defect");
     await allure.severity('Normal')
 
+    const defectName = `Defect ${fakerEN.string.alpha(5)}`;
+    const defectDescription = `Description ${fakerEN.string.alpha(5)}`;
     await projectPage.defectsButtonClick();
     await defectPage.createDefect(defectName, defectDescription);
     await expect(defectPage.defectNameHeading(defectName)).toBeVisible();
