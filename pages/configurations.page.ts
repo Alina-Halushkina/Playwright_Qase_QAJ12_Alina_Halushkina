@@ -20,7 +20,7 @@ export class ConfigurationsPage extends BasePage {
         return this.page.getByRole('button', { name: 'Create', exact: true });
     }
 
-    configurationGroupNameHeading(configurationGroupName: string = this.configurationGroupName) {
+    configurationGroupNameHeading(configurationGroupName: string) {
         return this.page.getByText(configurationGroupName);
     }
 
@@ -32,27 +32,15 @@ export class ConfigurationsPage extends BasePage {
         return this.page.getByPlaceholder('Configuration title');
     }
 
-    get configurationGroupName() {
-        return `Conf group ${fakerEN.string.alpha(5)}`;
-    }
-
-    get firstConfigurationName() {
-        return `Conf ${fakerEN.string.alpha(5)}`;
-    }
-
-    get secondConfigurationName() {
-        return `Conf ${fakerEN.string.alpha(6)}`;
-    }
-
-    firstConfigurationHeading(configurationName: string = this.firstConfigurationName) {
+    firstConfigurationHeading(configurationName: string) {
         return this.page.getByText(configurationName);
     }
 
-    secondConfigurationHeading(configurationName2: string = this.secondConfigurationName) {
+    secondConfigurationHeading(configurationName2: string) {
         return this.page.getByText(configurationName2);
     }
 
-    async configurationGroupCreate(configurationGroupName: string = this.configurationGroupName) {
+    async configurationGroupCreate(configurationGroupName: string) {
         await allure.step('Create configuration group', async () => {
             await this.configurationGroupButton.click();
             await this.configurationGroupTitleField.fill(configurationGroupName);
@@ -60,7 +48,7 @@ export class ConfigurationsPage extends BasePage {
         })
     }
 
-    async configurationCreate(configurationName: string = this.firstConfigurationName) {
+    async configurationCreate(configurationName: string) {
         await allure.step('Create configuration', async () => {
             await this.configurationCreateButton.click();
             await this.configurationTitleField.fill(configurationName);
