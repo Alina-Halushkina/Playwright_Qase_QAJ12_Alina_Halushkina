@@ -36,19 +36,19 @@ export class ConfigurationsPage extends BasePage {
         return `Conf group ${fakerEN.string.alpha(5)}`;
     }
 
-    get configurationName() {
+    get firstConfigurationName() {
         return `Conf ${fakerEN.string.alpha(5)}`;
     }
 
-    get configurationName2() {
+    get secondConfigurationName() {
         return `Conf ${fakerEN.string.alpha(6)}`;
     }
 
-    firstConfigurationHeading(configurationName: string = this.configurationName) {
+    firstConfigurationHeading(configurationName: string = this.firstConfigurationName) {
         return this.page.getByText(configurationName);
     }
 
-    secondConfigurationHeading(configurationName2: string = this.configurationName2) {
+    secondConfigurationHeading(configurationName2: string = this.secondConfigurationName) {
         return this.page.getByText(configurationName2);
     }
 
@@ -60,7 +60,7 @@ export class ConfigurationsPage extends BasePage {
         })
     }
 
-    async configurationCreate(configurationName: string = this.configurationName) {
+    async configurationCreate(configurationName: string = this.firstConfigurationName) {
         await allure.step('Create configuration', async () => {
             await this.configurationCreateButton.click();
             await this.configurationTitleField.fill(configurationName);

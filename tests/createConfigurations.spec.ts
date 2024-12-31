@@ -11,8 +11,8 @@ let projectPage: ProjectPage;
 let projectName: string;
 let configurationsPage: ConfigurationsPage;
 let configurationGroupName: string;
-let configurationName: string;
-let configurationName2: string;
+let firstConfigurationName: string;
+let secondConfigurationName: string;
 
 test.beforeEach(async ({page}) => {
     loginPage = new LoginPage(page);
@@ -21,8 +21,8 @@ test.beforeEach(async ({page}) => {
     configurationsPage = new ConfigurationsPage(page);
     projectName = homePage.projectName;
     configurationGroupName = configurationsPage.configurationGroupName;
-    configurationName = configurationsPage.configurationName;
-    configurationName2 = configurationsPage.configurationName2;
+    firstConfigurationName = configurationsPage.firstConfigurationName;
+    secondConfigurationName = configurationsPage.secondConfigurationName;
     await loginPage.goto();
     await loginPage.login();
     await expect(homePage.createProjectButton).toBeVisible();
@@ -43,8 +43,8 @@ test('Create configuration', async ({page}) => {
     await projectPage.configurationButtonClick();
     await configurationsPage.configurationGroupCreate(configurationGroupName);
     await expect(configurationsPage.configurationGroupNameHeading(configurationGroupName)).toBeVisible();
-    await configurationsPage.configurationCreate(configurationName);
-    await expect(configurationsPage.firstConfigurationHeading(configurationName)).toBeVisible();
-    await configurationsPage.configurationCreate(configurationName2);
-    await expect(configurationsPage.secondConfigurationHeading(configurationName2)).toBeVisible();
+    await configurationsPage.configurationCreate(firstConfigurationName);
+    await expect(configurationsPage.firstConfigurationHeading(firstConfigurationName)).toBeVisible();
+    await configurationsPage.configurationCreate(secondConfigurationName);
+    await expect(configurationsPage.secondConfigurationHeading(secondConfigurationName)).toBeVisible();
 });
