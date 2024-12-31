@@ -12,9 +12,6 @@ let homePage: HomePage;
 let projectPage: ProjectPage;
 let casePage: CasePage;
 let planPage: PlanPage;
-let projectName: string;
-let caseName: string;
-let planName: string;
 
 test.beforeEach(async ({page}) => {
     loginPage = new LoginPage(page);
@@ -22,14 +19,16 @@ test.beforeEach(async ({page}) => {
     projectPage = new ProjectPage(page);
     casePage = new CasePage(page);
     planPage = new PlanPage(page);
-    projectName = homePage.projectName;
-    caseName = casePage.caseName;
-    planName = planPage.planName;
+
     await loginPage.goto();
     await loginPage.login();
-    await expect(homePage.createProjectButton).toBeVisible();
-    await homePage.createProject(projectName);
+
+    const projectName =`Project ${fakerEN.string.alpha(5)}`;
+    const projectCode = fakerEN.string.alpha(2).toUpperCase();
+    await homePage.createProject(projectName, projectCode);
     await expect(projectPage.projectNameHeading(projectName)).toBeVisible();
+
+    const caseName = `Case ${fakerEN.string.alpha(5)}`;
     await projectPage.createCaseButtonClick()
     await casePage.createCase(caseName);
     await casePage.caseSave();
@@ -47,6 +46,7 @@ test('Create plan', async ({page}) => {
     await allure.feature("Create plan");
     await allure.severity('Normal')
 
+    const planName = `Plan ${fakerEN.string.alpha(5)}`;
     await projectPage.plansButtonClick();
     await planPage.createPlan(planName);
     await expect(planPage.planNameHeading(planName)).toBeVisible();

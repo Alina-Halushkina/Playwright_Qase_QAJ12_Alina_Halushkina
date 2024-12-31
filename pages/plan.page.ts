@@ -32,10 +32,6 @@ export class PlanPage extends BasePage {
         return this.page.getByRole('button', { name: 'Create plan' });
     }
 
-    get planName() {
-        return `Plan ${fakerEN.string.alpha(5)}`;
-    }
-
     planNameHeading(planName: string) {
         return this.page.getByRole('link', { name: planName});
     }
