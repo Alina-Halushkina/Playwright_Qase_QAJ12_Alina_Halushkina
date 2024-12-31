@@ -31,7 +31,7 @@ export class CasePage extends BasePage {
 
     async createCase(
         caseName: string,
-        filePath: string = path.dirname(__filename) + '/../files/scr test.png'
+        filePath: string,
     ) {
         await allure.step('Create case', async () => {
             await this.caseNameField.fill(caseName);
