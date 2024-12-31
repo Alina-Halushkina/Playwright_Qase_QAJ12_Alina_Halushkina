@@ -3,6 +3,7 @@ import {LoginPage} from "../pages/login.page";
 import {HomePage} from "../pages/home.page";
 import {ProjectPage} from "../pages/project.page";
 import * as allure from "allure-js-commons";
+import {fakerEN} from "@faker-js/faker";
 
 let loginPage: LoginPage;
 let homePage: HomePage;
@@ -20,6 +21,7 @@ test.beforeEach(async ({page}) => {
 });
 
 test.afterEach(async ({page}) => {
+    const projectName =`Project ${fakerEN.string.alpha(5)}`;
     await projectPage.deleteProject();
     await expect(homePage.createdProjects).not.toContainText(projectName);
 });
