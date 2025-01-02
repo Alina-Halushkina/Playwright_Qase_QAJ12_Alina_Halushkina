@@ -6,6 +6,7 @@ import {CasePage} from "../pages/case.page";
 import {TestRunPage} from "../pages/testRun.page";
 import * as allure from "allure-js-commons";
 import {fakerEN} from "@faker-js/faker";
+import path from "node:path";
 
 let loginPage: LoginPage;
 let homePage: HomePage;
@@ -29,8 +30,9 @@ test.beforeEach(async ({page}) => {
     await expect(projectPage.projectNameHeading(projectName)).toBeVisible();
 
     const caseName = `Case ${fakerEN.string.alpha(5)}`;
+    const filePath = path.dirname(__filename) + '/../files/scr test.png';
     await projectPage.createCaseButtonClick()
-    await casePage.createCase(caseName);
+    await casePage.createCase(caseName, filePath);
     await casePage.caseSave();
     await expect(casePage.caseNameHeading(caseName)).toBeVisible();
 });
