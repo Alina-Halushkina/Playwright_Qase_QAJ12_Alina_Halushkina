@@ -9,6 +9,8 @@ import {generateProjectCode, generateProjectName} from "../test-data-generator";
 let loginPage: LoginPage;
 let homePage: HomePage;
 let projectPage: ProjectPage;
+const projectName = generateProjectName();
+const projectCode = generateProjectCode();
 
 test.beforeEach(async ({page}) => {
     loginPage = new LoginPage(page);
@@ -21,7 +23,6 @@ test.beforeEach(async ({page}) => {
 });
 
 test.afterEach(async ({page}) => {
-    const projectName =`Project ${fakerEN.string.alpha(5)}`;
     await projectPage.deleteProject();
     await expect(homePage.createdProjects).not.toContainText(projectName);
 });
@@ -31,8 +32,6 @@ test('Create project failed', async ({page}) => {
     await allure.feature("Create project failed");
     await allure.severity('Trivial');
 
-    const projectName = generateProjectName();
-    const projectCode = generateProjectCode();
     await homePage.createProject(projectName, projectCode);
     await expect(projectPage.projectNameHeading('123')).toBeVisible();
 });

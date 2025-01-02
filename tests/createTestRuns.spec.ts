@@ -20,6 +20,11 @@ let homePage: HomePage;
 let projectPage: ProjectPage;
 let casePage: CasePage;
 let testRunPage: TestRunPage;
+const projectName = generateProjectName();
+const projectCode = generateProjectCode();
+const caseName = generateCaseName();
+const filePath = path.dirname(__filename) + '/../files/scr test.png';
+const testRunName = generateTestRunName();
 
 test.beforeEach(async ({page}) => {
     loginPage = new LoginPage(page);
@@ -31,13 +36,9 @@ test.beforeEach(async ({page}) => {
     await loginPage.goto();
     await loginPage.login();
 
-    const projectName = generateProjectName();
-    const projectCode = generateProjectCode();
     await homePage.createProject(projectName, projectCode);
     await expect(projectPage.projectNameHeading(projectName)).toBeVisible();
 
-    const caseName = generateCaseName();
-    const filePath = path.dirname(__filename) + '/../files/scr test.png';
     await projectPage.createCaseButtonClick()
     await casePage.createCase(caseName, filePath);
     await casePage.caseSave();
@@ -45,7 +46,6 @@ test.beforeEach(async ({page}) => {
 });
 
 test.afterEach(async ({page}) => {
-    const projectName =`Project ${fakerEN.string.alpha(5)}`;
     await projectPage.deleteProject();
     await expect(homePage.createdProjects).not.toContainText(projectName);
 });
@@ -55,7 +55,6 @@ test('Create test run', async ({page}) => {
     await allure.feature("Create test run");
     await allure.severity('Normal');
 
-    const testRunName = generateTestRunName();
     await projectPage.testRunButtonClick();
     await testRunPage.createTestRun(testRunName);
     await expect(testRunPage.testRunNameHeading(testRunName)).toBeVisible();

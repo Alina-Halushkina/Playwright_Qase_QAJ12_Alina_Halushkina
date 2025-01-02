@@ -14,6 +14,11 @@ let homePage: HomePage;
 let projectPage: ProjectPage;
 let casePage: CasePage;
 let planPage: PlanPage;
+const projectName = generateProjectName();
+const projectCode = generateProjectCode();
+const caseName = generateCaseName();
+const filePath = path.dirname(__filename) + '/../files/scr test.png';
+const planName = generatePlanName();
 
 test.beforeEach(async ({page}) => {
     loginPage = new LoginPage(page);
@@ -25,13 +30,9 @@ test.beforeEach(async ({page}) => {
     await loginPage.goto();
     await loginPage.login();
 
-    const projectName = generateProjectName();
-    const projectCode = generateProjectCode();
     await homePage.createProject(projectName, projectCode);
     await expect(projectPage.projectNameHeading(projectName)).toBeVisible();
 
-    const caseName = generateCaseName();
-    const filePath = path.dirname(__filename) + '/../files/scr test.png';
     await projectPage.createCaseButtonClick()
     await casePage.createCase(caseName, filePath);
     await casePage.caseSave();
@@ -39,7 +40,6 @@ test.beforeEach(async ({page}) => {
 });
 
 test.afterEach(async ({page}) => {
-    const projectName =`Project ${fakerEN.string.alpha(5)}`;
     await projectPage.deleteProject();
     await expect(homePage.createdProjects).not.toContainText(projectName);
 });
@@ -49,7 +49,6 @@ test('Create plan', async ({page}) => {
     await allure.feature("Create plan");
     await allure.severity('Normal')
 
-    const planName = generatePlanName();
     await projectPage.plansButtonClick();
     await planPage.createPlan(planName);
     await expect(planPage.planNameHeading(planName)).toBeVisible();

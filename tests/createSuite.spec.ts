@@ -10,6 +10,9 @@ import {generateProjectCode, generateProjectName, generateSuiteName} from "../te
 let loginPage: LoginPage;
 let homePage: HomePage;
 let projectPage: ProjectPage;
+const projectName = generateProjectName();
+const projectCode = generateProjectCode();
+const suiteName = generateSuiteName();
 
 test.beforeEach(async ({page}) => {
     loginPage = new LoginPage(page);
@@ -19,14 +22,11 @@ test.beforeEach(async ({page}) => {
     await loginPage.goto();
     await loginPage.login();
 
-    const projectName = generateProjectName();
-    const projectCode = generateProjectCode();
     await homePage.createProject(projectName, projectCode);
     await expect(projectPage.projectNameHeading(projectName)).toBeVisible();
 });
 
 test.afterEach(async ({page}) => {
-    const projectName =`Project ${fakerEN.string.alpha(5)}`;
     await projectPage.deleteProject();
     await expect(homePage.createdProjects).not.toContainText(projectName);
 });
@@ -37,7 +37,6 @@ test('Create suite', {tag: "@smoke"}, async ({page}) => {
     await allure.severity('Critical');
     await allure.tag("smoke")
 
-    const suiteName = generateSuiteName();
     await projectPage.createSuite(suiteName);
     await expect(projectPage.suiteNameHeading(suiteName)).toBeVisible();
 });
