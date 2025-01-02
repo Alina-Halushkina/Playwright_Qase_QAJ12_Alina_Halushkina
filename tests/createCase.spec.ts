@@ -6,6 +6,7 @@ import {CasePage} from "../pages/case.page";
 import * as path from "node:path";
 import * as allure from "allure-js-commons";
 import {fakerEN} from "@faker-js/faker";
+import {generateCaseName, generateProjectCode, generateProjectName} from "../test-data-generator";
 
 let loginPage: LoginPage;
 let homePage: HomePage;
@@ -21,8 +22,8 @@ test.beforeEach(async ({page}) => {
     await loginPage.goto();
     await loginPage.login();
 
-    const projectName =`Project ${fakerEN.string.alpha(5)}`;
-    const projectCode = fakerEN.string.alpha(2).toUpperCase();
+    const projectName = generateProjectName();
+    const projectCode = generateProjectCode();
     await homePage.createProject(projectName, projectCode);
     await expect(projectPage.projectNameHeading(projectName)).toBeVisible();
 });
@@ -41,7 +42,7 @@ test('Create case with attachment', {tag: "@smoke"}, async ({page}) => {
 
     const filePath = path.dirname(__filename) + '/../files/scr test.png';
     const fileName = filePath.replace(/^.*[\\/]/, '')
-    const caseName = `Case ${fakerEN.string.alpha(5)}`;
+    const caseName = generateCaseName();
 
     await projectPage.createCaseButtonClick()
     await casePage.createCase(caseName, filePath);

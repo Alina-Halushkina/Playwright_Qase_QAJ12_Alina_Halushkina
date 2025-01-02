@@ -7,6 +7,13 @@ import {TestRunPage} from "../pages/testRun.page";
 import * as allure from "allure-js-commons";
 import {fakerEN} from "@faker-js/faker";
 import path from "node:path";
+import {
+    generateCaseName,
+    generateFilePath,
+    generateProjectCode,
+    generateProjectName,
+    generateTestRunName
+} from "../test-data-generator";
 
 let loginPage: LoginPage;
 let homePage: HomePage;
@@ -24,12 +31,12 @@ test.beforeEach(async ({page}) => {
     await loginPage.goto();
     await loginPage.login();
 
-    const projectName =`Project ${fakerEN.string.alpha(5)}`;
-    const projectCode = fakerEN.string.alpha(2).toUpperCase();
+    const projectName = generateProjectName();
+    const projectCode = generateProjectCode();
     await homePage.createProject(projectName, projectCode);
     await expect(projectPage.projectNameHeading(projectName)).toBeVisible();
 
-    const caseName = `Case ${fakerEN.string.alpha(5)}`;
+    const caseName = generateCaseName();
     const filePath = path.dirname(__filename) + '/../files/scr test.png';
     await projectPage.createCaseButtonClick()
     await casePage.createCase(caseName, filePath);
@@ -48,7 +55,7 @@ test('Create test run', async ({page}) => {
     await allure.feature("Create test run");
     await allure.severity('Normal');
 
-    const testRunName = `Test Run ${fakerEN.string.alpha(5)}`;
+    const testRunName = generateTestRunName();
     await projectPage.testRunButtonClick();
     await testRunPage.createTestRun(testRunName);
     await expect(testRunPage.testRunNameHeading(testRunName)).toBeVisible();

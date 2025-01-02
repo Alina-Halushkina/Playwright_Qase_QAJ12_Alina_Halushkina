@@ -7,6 +7,7 @@ import {PlanPage} from "../pages/plan.page";
 import * as allure from "allure-js-commons";
 import {fakerEN} from "@faker-js/faker";
 import path from "node:path";
+import {generateCaseName, generatePlanName, generateProjectCode, generateProjectName} from "../test-data-generator";
 
 let loginPage: LoginPage;
 let homePage: HomePage;
@@ -24,12 +25,12 @@ test.beforeEach(async ({page}) => {
     await loginPage.goto();
     await loginPage.login();
 
-    const projectName =`Project ${fakerEN.string.alpha(5)}`;
-    const projectCode = fakerEN.string.alpha(2).toUpperCase();
+    const projectName = generateProjectName();
+    const projectCode = generateProjectCode();
     await homePage.createProject(projectName, projectCode);
     await expect(projectPage.projectNameHeading(projectName)).toBeVisible();
 
-    const caseName = `Case ${fakerEN.string.alpha(5)}`;
+    const caseName = generateCaseName();
     const filePath = path.dirname(__filename) + '/../files/scr test.png';
     await projectPage.createCaseButtonClick()
     await casePage.createCase(caseName, filePath);
@@ -48,7 +49,7 @@ test('Create plan', async ({page}) => {
     await allure.feature("Create plan");
     await allure.severity('Normal')
 
-    const planName = `Plan ${fakerEN.string.alpha(5)}`;
+    const planName = generatePlanName();
     await projectPage.plansButtonClick();
     await planPage.createPlan(planName);
     await expect(planPage.planNameHeading(planName)).toBeVisible();

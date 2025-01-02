@@ -6,6 +6,12 @@ import {CasePage} from "../pages/case.page";
 import {DefectPage} from "../pages/defect.page";
 import * as allure from "allure-js-commons";
 import {fakerEN} from "@faker-js/faker";
+import {
+    generateDefectDescription,
+    generateDefectName,
+    generateProjectCode,
+    generateProjectName
+} from "../test-data-generator";
 
 let loginPage: LoginPage;
 let homePage: HomePage;
@@ -21,8 +27,8 @@ test.beforeEach(async ({page}) => {
     await loginPage.goto();
     await loginPage.login();
 
-    const projectName =`Project ${fakerEN.string.alpha(5)}`;
-    const projectCode = fakerEN.string.alpha(2).toUpperCase();
+    const projectName = generateProjectName();
+    const projectCode = generateProjectCode();
     await homePage.createProject(projectName, projectCode);
     await expect(projectPage.projectNameHeading(projectName)).toBeVisible();
 });
@@ -38,8 +44,8 @@ test('Create defect', async ({page}) => {
     await allure.feature("Create defect");
     await allure.severity('Normal')
 
-    const defectName = `Defect ${fakerEN.string.alpha(5)}`;
-    const defectDescription = `Description ${fakerEN.string.alpha(5)}`;
+    const defectName = generateDefectName();
+    const defectDescription = generateDefectDescription();
     await projectPage.defectsButtonClick();
     await defectPage.createDefect(defectName, defectDescription);
     await expect(defectPage.defectNameHeading(defectName)).toBeVisible();

@@ -5,6 +5,12 @@ import {ProjectPage} from "../pages/project.page";
 import {ConfigurationsPage} from "../pages/configurations.page";
 import * as allure from "allure-js-commons";
 import {fakerEN} from "@faker-js/faker";
+import {
+    generateConfigurationGroupName,
+    generateFirstConfigurationName,
+    generateProjectCode,
+    generateProjectName, generateSecondConfigurationName
+} from "../test-data-generator";
 
 let loginPage: LoginPage;
 let homePage: HomePage;
@@ -20,8 +26,8 @@ test.beforeEach(async ({page}) => {
     await loginPage.goto();
     await loginPage.login();
 
-    const projectName =`Project ${fakerEN.string.alpha(5)}`;
-    const projectCode = fakerEN.string.alpha(2).toUpperCase();
+    const projectName = generateProjectName();
+    const projectCode = generateProjectCode();
     await homePage.createProject(projectName, projectCode);
     await expect(projectPage.projectNameHeading(projectName)).toBeVisible();
 });
@@ -37,9 +43,9 @@ test('Create configuration', async ({page}) => {
     await allure.feature("Create configuration");
     await allure.severity('Normal')
 
-    const configurationGroupName = `Configuration Group ${fakerEN.string.alpha(5)}`;
-    const firstConfigurationName = `Configuration ${fakerEN.string.alpha(5)}`;
-    const secondConfigurationName = `Configuration ${fakerEN.string.alpha(5)}`;
+    const configurationGroupName = generateConfigurationGroupName();
+    const firstConfigurationName = generateFirstConfigurationName();
+    const secondConfigurationName = generateSecondConfigurationName();
 
     await projectPage.configurationButtonClick();
     await configurationsPage.configurationGroupCreate(configurationGroupName);

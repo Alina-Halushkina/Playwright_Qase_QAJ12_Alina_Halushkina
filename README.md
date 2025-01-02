@@ -7,7 +7,7 @@ Testing checklist:
 1. Authorization
 2. Sign out
 3. Create new project
-4. Create suit
+4. Create suite
 5. Create test case
 6. Create test plan
 7. Create defect
