@@ -1,0 +1,23 @@
+{
+  "name": "playwright_qase_qaj12_alina_halushkina",
+  "version": "1.0.0",
+  "description": "Description of product: Qase is a test management tool for organization, tracking, and reporting of manual and automated software testing",
+  "main": "index.js",
+  "scripts": {
+    "test:smoke": "npx playwright test --grep @smoke",
+    "test:Chrome": "npx playwright test --project chromium",
+    "test:Firefox": "npx playwright test --project firefox"
+  },
+  "keywords": [],
+  "author": "Alina Halushkina",
+  "license": "ISC",
+  "devDependencies": {
+    "@faker-js/faker": "^9.3.0",
+    "@playwright/test": "^1.49.1",
+    "@types/node": "^22.10.2",
+    "allure-playwright": "^3.0.7"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7"
+  }
+}
