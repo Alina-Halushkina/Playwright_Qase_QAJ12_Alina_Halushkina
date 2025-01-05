@@ -51,7 +51,7 @@ test('Create suite', async ({request}) => {
     })
 
     await expect(responsePostSuite.status()).toBe(200);
-})
+});
 
 test('Create case', async ({request}) => {
     await allure.epic("API");
@@ -70,7 +70,7 @@ test('Create case', async ({request}) => {
     })
 
     await expect(responsePostCase.status()).toBe(200);
-})
+});
 
 test('Create plan', async ({request}) => {
     await allure.epic("API");
@@ -89,7 +89,7 @@ test('Create plan', async ({request}) => {
     })
 
     await expect(responsePostPlan.status()).toBe(200);
-})
+});
 
 test('Create defect', async ({request}) => {
     await allure.epic("API");
@@ -111,3 +111,22 @@ test('Create defect', async ({request}) => {
 
     await expect(responsePostDefect.status()).toBe(200);
 });
+
+test('Create test run', async ({request}) => {
+    await allure.epic("API");
+    await allure.feature("Create test run");
+    await allure.severity('Normal');
+
+    const responsePostRun = await request.post(`${baseUrl}/run/TP`, {
+        data: {
+            "title": "Test run",
+            "cases": [1]
+        },
+        headers: {
+            "Content-Type": "application/json",
+            "Token": process.env.API_TOKEN
+        }
+    })
+
+    await expect(responsePostRun.status()).toBe(200);
+    });
