@@ -3,7 +3,7 @@ import * as allure from "allure-js-commons";
 
 const baseUrl = "https://api.qase.io/v1";
 
-test.beforeAll(async ({ request }) => {
+test.beforeAll("Create project", async ({ request }) => {
   const responsePostProject = await request.post(`${baseUrl}/project`, {
     data: {
       title: "Test project",
@@ -21,7 +21,7 @@ test.beforeAll(async ({ request }) => {
   expect(responseBody.result.code).toBe("TP");
 });
 
-test.afterAll("Create suite", async ({ request }) => {
+test.afterAll("Delete project", async ({ request }) => {
   const responseDeleteProject = await request.delete(`${baseUrl}/project/TP`, {
     headers: {
       "Content-Type": "application/json",
@@ -32,6 +32,9 @@ test.afterAll("Create suite", async ({ request }) => {
   expect(responseDeleteProject.status()).toBe(200);
 });
 
+/**
+ * @see https://developers.qase.io/reference/create-suite
+ */
 test("Create suite", async ({ request }) => {
   await allure.epic("API");
   await allure.feature("Create suite");
@@ -51,6 +54,9 @@ test("Create suite", async ({ request }) => {
   expect(responsePostSuite.status()).toBe(200);
 });
 
+/**
+ * @see https://developers.qase.io/reference/create-case
+ */
 test("Create case", async ({ request }) => {
   await allure.epic("API");
   await allure.feature("Create case");
@@ -70,6 +76,9 @@ test("Create case", async ({ request }) => {
   expect(responsePostCase.status()).toBe(200);
 });
 
+/**
+ * @see https://developers.qase.io/reference/create-plan
+ */
 test("Create plan", async ({ request }) => {
   await allure.epic("API");
   await allure.feature("Create plan");
@@ -89,6 +98,9 @@ test("Create plan", async ({ request }) => {
   expect(responsePostPlan.status()).toBe(200);
 });
 
+/**
+ * @see https://developers.qase.io/reference/create-defect
+ */
 test("Create defect", async ({ request }) => {
   await allure.epic("API");
   await allure.feature("Create defect");
@@ -109,6 +121,9 @@ test("Create defect", async ({ request }) => {
   expect(responsePostDefect.status()).toBe(200);
 });
 
+/**
+ * @see https://developers.qase.io/reference/create-run
+ */
 test("Create test run", async ({ request }) => {
   await allure.epic("API");
   await allure.feature("Create test run");
@@ -166,4 +181,28 @@ test("Create configuration", async ({ request }) => {
   );
 
   expect(responsePostConfiguration.status()).toBe(200);
+});
+
+/**
+ * @see https://developers.qase.io/reference/create-environment
+ */
+test("Create environment", async ({ request }) => {
+  await allure.epic("API");
+  await allure.feature("Create environment");
+  await allure.severity("Normal");
+
+  const responsePostEnvironment = await request.post(
+    `${baseUrl}/environment/TP`,
+    {
+      data: {
+        title: "Test environment",
+        slug: "Slug 123",
+      },
+      headers: {
+        "Content-Type": "application/json",
+        Token: process.env.API_TOKEN,
+      },
+    },
+  );
+  expect(responsePostEnvironment.status()).toBe(200);
 });
