@@ -3,13 +3,13 @@ import * as allure from "allure-js-commons";
 
 const baseUrl = 'https://api.qase.io/v1';
 
-test('Create and delete project', async ({request}) => {
+test('API testing', async ({request}) => {
     await allure.epic("API");
-    await allure.feature("Create project");
+    await allure.feature("Create project, case, suite");
     await allure.severity('Blocker');
     await allure.tag("smoke")
 
-    const response = await request.post(`${baseUrl}/project`, {
+    const responsePostProject = await request.post(`${baseUrl}/project`, {
         data: {
             "title": "Test project",
             "code": "TP"
@@ -19,20 +19,42 @@ test('Create and delete project', async ({request}) => {
             "Token": process.env.API_TOKEN
         }
     })
+    await expect(responsePostProject.status()).toBe(200);
 
-    await expect(response.status()).toBe(200);
-
-    const responseBody = JSON.parse(await response.text());
+    const responseBody = JSON.parse(await responsePostProject.text());
 
     expect(responseBody.result.code).toBe("TP");
 
 
-    const responseDelete = await request.delete(`${baseUrl}/project/TP`, {
+    const responsePostSuite = await request.post(`${baseUrl}/suite/TP`, {
+        data: {
+            "title": "Test suite",
+        },
         headers: {
             "Content-Type": "application/json",
             "Token": process.env.API_TOKEN
         }
     })
+    await expect(responsePostSuite.status()).toBe(200);
 
-    await expect(responseDelete.status()).toBe(200);
+    const responsePostCase = await request.post(`${baseUrl}/case/TP`, {
+        data: {
+            "title": "Test case",
+        },
+        headers: {
+            "Content-Type": "application/json",
+            "Token": process.env.API_TOKEN
+        }
+    })
+    await expect(responsePostCase.status()).toBe(200);
+
+
+
+    const responseDeleteProject = await request.delete(`${baseUrl}/project/TP`, {
+        headers: {
+            "Content-Type": "application/json",
+            "Token": process.env.API_TOKEN
+        }
+    })
+    await expect(responseDeleteProject.status()).toBe(200);
 });
