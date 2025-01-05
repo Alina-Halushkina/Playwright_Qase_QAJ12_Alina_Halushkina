@@ -14,6 +14,7 @@ test.beforeAll(async ({request}) => {
             "Token": process.env.API_TOKEN
         }
     })
+
     await expect(responsePostProject.status()).toBe(200);
 
     const responseBody = JSON.parse(await responsePostProject.text());
@@ -28,6 +29,7 @@ test.afterAll('Create suite', async ({request}) => {
             "Token": process.env.API_TOKEN
         }
     })
+
     await expect(responseDeleteProject.status()).toBe(200);
 });
 
@@ -47,6 +49,7 @@ test('Create suite', async ({request}) => {
             "Token": process.env.API_TOKEN
         }
     })
+
     await expect(responsePostSuite.status()).toBe(200);
 })
 
@@ -65,6 +68,7 @@ test('Create case', async ({request}) => {
             "Token": process.env.API_TOKEN
         }
     })
+
     await expect(responsePostCase.status()).toBe(200);
 })
 
@@ -83,5 +87,27 @@ test('Create plan', async ({request}) => {
             "Token": process.env.API_TOKEN
         }
     })
+
     await expect(responsePostPlan.status()).toBe(200);
-    });
+})
+
+test('Create defect', async ({request}) => {
+    await allure.epic("API");
+    await allure.feature("Create defect");
+    await allure.severity('Normal');
+
+
+    const responsePostDefect = await request.post(`${baseUrl}/defect/TP`, {
+        data: {
+            "title": "Test defect",
+            "actual_result": "Test defect",
+            "severity": 1,
+        },
+        headers: {
+            "Content-Type": "application/json",
+            "Token": process.env.API_TOKEN
+        }
+    })
+
+    await expect(responsePostDefect.status()).toBe(200);
+});
