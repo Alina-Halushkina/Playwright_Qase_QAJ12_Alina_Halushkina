@@ -1,5 +1,5 @@
-import { defineConfig, devices } from '@playwright/test';
-import 'dotenv/config'
+import { defineConfig, devices } from "@playwright/test";
+import "dotenv/config";
 
 /**
  * Read environment variables from file.
@@ -13,7 +13,7 @@ import 'dotenv/config'
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: './tests',
+  testDir: "./tests",
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -34,22 +34,26 @@ export default defineConfig({
     headless: process.env.CI ? true : false,
     actionTimeout: 10000,
     navigationTimeout: 15000,
-    screenshot: 'only-on-failure',
+    screenshot: "only-on-failure",
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on',
+    trace: "on",
+    extraHTTPHeaders: {
+      "Content-Type": "application/json",
+      Token: process.env.API_TOKEN,
+    },
   },
 
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] },
     },
 
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      name: "firefox",
+      use: { ...devices["Desktop Firefox"] },
     },
     //
     // {

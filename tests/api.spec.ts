@@ -1,33 +1,29 @@
 import { expect, test } from "@playwright/test";
 import * as allure from "allure-js-commons";
 
-const baseUrl = "https://api.qase.io/v1";
+const projectCode = "TP";
 
 test.beforeAll("Create project", async ({ request }) => {
-  const responsePostProject = await request.post(`${baseUrl}/project`, {
-    data: {
-      title: "Test project",
-      code: "TP",
+  const responsePostProject = await request.post(
+    `${process.env.BASE_URL}/project`,
+    {
+      data: {
+        title: "Test project",
+        code: projectCode,
+      },
     },
-    headers: {
-      "Content-Type": "application/json",
-      Token: process.env.API_TOKEN,
-    },
-  });
+  );
 
   expect(responsePostProject.status()).toBe(200);
 
   const responseBody = JSON.parse(await responsePostProject.text());
-  expect(responseBody.result.code).toBe("TP");
+  expect(responseBody.result.code).toBe(projectCode);
 });
 
 test.afterAll("Delete project", async ({ request }) => {
-  const responseDeleteProject = await request.delete(`${baseUrl}/project/TP`, {
-    headers: {
-      "Content-Type": "application/json",
-      Token: process.env.API_TOKEN,
-    },
-  });
+  const responseDeleteProject = await request.delete(
+    `${process.env.BASE_URL}/project/${projectCode}`,
+  );
 
   expect(responseDeleteProject.status()).toBe(200);
 });
@@ -41,15 +37,14 @@ test("Create suite", async ({ request }) => {
   await allure.severity("Critical");
   await allure.tag("smoke");
 
-  const responsePostSuite = await request.post(`${baseUrl}/suite/TP`, {
-    data: {
-      title: "Test suite",
+  const responsePostSuite = await request.post(
+    `${process.env.BASE_URL}/suite/${projectCode}`,
+    {
+      data: {
+        title: "Test suite",
+      },
     },
-    headers: {
-      "Content-Type": "application/json",
-      Token: process.env.API_TOKEN,
-    },
-  });
+  );
 
   expect(responsePostSuite.status()).toBe(200);
 });
@@ -63,15 +58,14 @@ test("Create case", async ({ request }) => {
   await allure.severity("Critical");
   await allure.tag("smoke");
 
-  const responsePostCase = await request.post(`${baseUrl}/case/TP`, {
-    data: {
-      title: "Test case",
+  const responsePostCase = await request.post(
+    `${process.env.BASE_URL}/case/${projectCode}`,
+    {
+      data: {
+        title: "Test case",
+      },
     },
-    headers: {
-      "Content-Type": "application/json",
-      Token: process.env.API_TOKEN,
-    },
-  });
+  );
 
   expect(responsePostCase.status()).toBe(200);
 });
@@ -84,16 +78,15 @@ test("Create plan", async ({ request }) => {
   await allure.feature("Create plan");
   await allure.severity("Normal");
 
-  const responsePostPlan = await request.post(`${baseUrl}/plan/TP`, {
-    data: {
-      title: "Test plan",
-      cases: [1],
+  const responsePostPlan = await request.post(
+    `${process.env.BASE_URL}/plan/${projectCode}`,
+    {
+      data: {
+        title: "Test plan",
+        cases: [1],
+      },
     },
-    headers: {
-      "Content-Type": "application/json",
-      Token: process.env.API_TOKEN,
-    },
-  });
+  );
 
   expect(responsePostPlan.status()).toBe(200);
 });
@@ -106,17 +99,16 @@ test("Create defect", async ({ request }) => {
   await allure.feature("Create defect");
   await allure.severity("Normal");
 
-  const responsePostDefect = await request.post(`${baseUrl}/defect/TP`, {
-    data: {
-      title: "Test defect",
-      actual_result: "Test defect",
-      severity: 1,
+  const responsePostDefect = await request.post(
+    `${process.env.BASE_URL}/defect/${projectCode}`,
+    {
+      data: {
+        title: "Test defect",
+        actual_result: "Test defect",
+        severity: 1,
+      },
     },
-    headers: {
-      "Content-Type": "application/json",
-      Token: process.env.API_TOKEN,
-    },
-  });
+  );
 
   expect(responsePostDefect.status()).toBe(200);
 });
@@ -129,16 +121,15 @@ test("Create test run", async ({ request }) => {
   await allure.feature("Create test run");
   await allure.severity("Normal");
 
-  const responsePostRun = await request.post(`${baseUrl}/run/TP`, {
-    data: {
-      title: "Test run",
-      cases: [1],
+  const responsePostRun = await request.post(
+    `${process.env.BASE_URL}/run/${projectCode}`,
+    {
+      data: {
+        title: "Test run",
+        cases: [1],
+      },
     },
-    headers: {
-      "Content-Type": "application/json",
-      Token: process.env.API_TOKEN,
-    },
-  });
+  );
 
   expect(responsePostRun.status()).toBe(200);
 });
@@ -152,14 +143,10 @@ test("Create configuration", async ({ request }) => {
   await allure.severity("Normal");
 
   const responsePostConfigGroup = await request.post(
-    `${baseUrl}/configuration/TP/group`,
+    `${process.env.BASE_URL}/configuration/${projectCode}/group`,
     {
       data: {
         title: "Test configuration group",
-      },
-      headers: {
-        "Content-Type": "application/json",
-        Token: process.env.API_TOKEN,
       },
     },
   );
@@ -167,15 +154,11 @@ test("Create configuration", async ({ request }) => {
   expect(responsePostConfigGroup.status()).toBe(200);
 
   const responsePostConfiguration = await request.post(
-    `${baseUrl}/configuration/TP`,
+    `${process.env.BASE_URL}/configuration/${projectCode}`,
     {
       data: {
         title: "Test configuration",
         group_id: 1,
-      },
-      headers: {
-        "Content-Type": "application/json",
-        Token: process.env.API_TOKEN,
       },
     },
   );
@@ -192,15 +175,11 @@ test("Create environment", async ({ request }) => {
   await allure.severity("Normal");
 
   const responsePostEnvironment = await request.post(
-    `${baseUrl}/environment/TP`,
+    `${process.env.BASE_URL}/environment/${projectCode}`,
     {
       data: {
         title: "Test environment",
         slug: "Slug 123",
-      },
-      headers: {
-        "Content-Type": "application/json",
-        Token: process.env.API_TOKEN,
       },
     },
   );
