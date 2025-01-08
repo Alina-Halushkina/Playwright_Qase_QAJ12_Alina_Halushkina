@@ -26,6 +26,10 @@ test.afterAll("Delete project", async ({ request }) => {
   );
 
   expect(responseDeleteProject.status()).toBe(200);
+  const responseBodyDeleteProject = JSON.parse(
+    await responseDeleteProject.text(),
+  );
+  console.log(responseBodyDeleteProject);
 });
 
 /**
@@ -47,6 +51,8 @@ test("Create suite", async ({ request }) => {
   );
 
   expect(responsePostSuite.status()).toBe(200);
+  const responseBodyCreateSuite = JSON.parse(await responsePostSuite.text());
+  console.log(responseBodyCreateSuite);
 });
 
 /**
@@ -68,6 +74,8 @@ test("Create case", async ({ request }) => {
   );
 
   expect(responsePostCase.status()).toBe(200);
+  const responseBodyCreateCase = JSON.parse(await responsePostCase.text());
+  console.log(responseBodyCreateCase);
 });
 
 /**
@@ -89,6 +97,8 @@ test("Create plan", async ({ request }) => {
   );
 
   expect(responsePostPlan.status()).toBe(200);
+  const responseBodyCreatePlan = JSON.parse(await responsePostPlan.text());
+  console.log(responseBodyCreatePlan);
 });
 
 /**
@@ -111,6 +121,8 @@ test("Create defect", async ({ request }) => {
   );
 
   expect(responsePostDefect.status()).toBe(200);
+  const responseBodyCreateDefect = JSON.parse(await responsePostDefect.text());
+  console.log(responseBodyCreateDefect);
 });
 
 /**
@@ -132,6 +144,8 @@ test("Create test run", async ({ request }) => {
   );
 
   expect(responsePostRun.status()).toBe(200);
+  const responseBodyCreateTestRun = JSON.parse(await responsePostRun.text());
+  console.log(responseBodyCreateTestRun);
 });
 
 /**
@@ -164,6 +178,10 @@ test("Create configuration", async ({ request }) => {
   );
 
   expect(responsePostConfiguration.status()).toBe(200);
+  const responseBodyCreateConfiguration = JSON.parse(
+    await responsePostConfiguration.text(),
+  );
+  console.log(responseBodyCreateConfiguration);
 });
 
 /**
@@ -184,4 +202,8 @@ test("Create environment", async ({ request }) => {
     },
   );
   expect(responsePostEnvironment.status()).toBe(200);
+  const responseBodyCreateEnvironment = JSON.parse(
+    await responsePostEnvironment.text(),
+  );
+  console.log(responseBodyCreateEnvironment);
 });
