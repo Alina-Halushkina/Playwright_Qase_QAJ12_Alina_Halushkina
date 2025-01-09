@@ -16,8 +16,10 @@ test.beforeAll("Create project", async ({ request }) => {
 
   expect(responsePostProject.status()).toBe(200);
 
-  const responseBody = JSON.parse(await responsePostProject.text());
-  expect(responseBody.result.code).toBe(projectCode);
+  const responseBodyCreateProject = JSON.parse(
+    await responsePostProject.text(),
+  );
+  expect(responseBodyCreateProject.result.code).toBe(projectCode);
 });
 
 test.afterAll("Delete project", async ({ request }) => {
@@ -26,10 +28,6 @@ test.afterAll("Delete project", async ({ request }) => {
   );
 
   expect(responseDeleteProject.status()).toBe(200);
-  const responseBodyDeleteProject = JSON.parse(
-    await responseDeleteProject.text(),
-  );
-  console.log(responseBodyDeleteProject);
 });
 
 /**
@@ -52,7 +50,7 @@ test("Create suite", async ({ request }) => {
 
   expect(responsePostSuite.status()).toBe(200);
   const responseBodyCreateSuite = JSON.parse(await responsePostSuite.text());
-  console.log(responseBodyCreateSuite);
+  expect(responseBodyCreateSuite.result.id).toBeTruthy();
 });
 
 /**
@@ -75,7 +73,7 @@ test("Create case", async ({ request }) => {
 
   expect(responsePostCase.status()).toBe(200);
   const responseBodyCreateCase = JSON.parse(await responsePostCase.text());
-  console.log(responseBodyCreateCase);
+  expect(responseBodyCreateCase.result.id).toBeTruthy();
 });
 
 /**
@@ -98,7 +96,7 @@ test("Create plan", async ({ request }) => {
 
   expect(responsePostPlan.status()).toBe(200);
   const responseBodyCreatePlan = JSON.parse(await responsePostPlan.text());
-  console.log(responseBodyCreatePlan);
+  expect(responseBodyCreatePlan.result.id).toBeTruthy();
 });
 
 /**
@@ -122,7 +120,7 @@ test("Create defect", async ({ request }) => {
 
   expect(responsePostDefect.status()).toBe(200);
   const responseBodyCreateDefect = JSON.parse(await responsePostDefect.text());
-  console.log(responseBodyCreateDefect);
+  expect(responseBodyCreateDefect.result.id).toBeTruthy();
 });
 
 /**
@@ -145,7 +143,7 @@ test("Create test run", async ({ request }) => {
 
   expect(responsePostRun.status()).toBe(200);
   const responseBodyCreateTestRun = JSON.parse(await responsePostRun.text());
-  console.log(responseBodyCreateTestRun);
+  expect(responseBodyCreateTestRun.result.id).toBeTruthy();
 });
 
 /**
@@ -181,7 +179,7 @@ test("Create configuration", async ({ request }) => {
   const responseBodyCreateConfiguration = JSON.parse(
     await responsePostConfiguration.text(),
   );
-  console.log(responseBodyCreateConfiguration);
+  expect(responseBodyCreateConfiguration.result.id).toBeTruthy();
 });
 
 /**
@@ -205,5 +203,5 @@ test("Create environment", async ({ request }) => {
   const responseBodyCreateEnvironment = JSON.parse(
     await responsePostEnvironment.text(),
   );
-  console.log(responseBodyCreateEnvironment);
+  expect(responseBodyCreateEnvironment.result.id).toBeTruthy();
 });
