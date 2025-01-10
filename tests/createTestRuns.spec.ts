@@ -9,7 +9,6 @@ import {fakerEN} from "@faker-js/faker";
 import path from "node:path";
 import {
     generateCaseName,
-    generateFilePath,
     generateProjectCode,
     generateProjectName,
     generateTestRunName
