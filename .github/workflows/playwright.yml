@@ -86,6 +86,7 @@ jobs:
 
   generate-report:
     runs-on: ubuntu-latest
+    if: ${{ always() }}
     needs: test
     name: Generate allure report
     steps:
