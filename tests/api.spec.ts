@@ -189,6 +189,7 @@ test("Create environment", async ({ request }) => {
   await allure.epic("API");
   await allure.feature("Create environment");
   await allure.severity("Normal");
+  await allure.link("https://docs.qase.io/general/execution/environments");
 
   const responsePostEnvironment = await request.post(
     `${process.env.BASE_URL}/environment/${projectCode}`,

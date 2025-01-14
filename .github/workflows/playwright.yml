@@ -26,11 +26,60 @@ jobs:
     - name: Run Playwright tests
       run: npm run test:${{ inputs.browser }}
       env:
-        EMAIL: ${{ vars.EMAIL }}
-        PASSWORD: ${{ vars.PASSWORD }}
+        EMAIL: ${{ secrets.EMAIL }}
+        PASSWORD: ${{ secrets.PASSWORD }}
+        API_TOKEN: ${{ secrets.API_TOKEN }}
+        BASE_URL: ${{ secrets.BASE_URL }}
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
         name: playwright-report
         path: playwright-report/
-        retention-days: 30
+        retention-days: 1
+    - name: Store allure results
+      uses: actions/upload-artifact@v4
+      with:
+        name: allure-results
+        path:
+          allure-results
+        retention-days: 1
+
+  generate-report:
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs: test
+    name: Generate allure report
+    steps:
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'microsoft' # See 'Supported distributions' for available options
+          java-version: '17'
+      - run: sudo wget https://github.com/allure-framework/allure2/releases/download/2.23.1/allure-2.23.1.tgz && sudo tar -zxvf allure-2.23.1.tgz -C /opt/ && sudo ln -s /opt/allure-2.23.1/bin/allure /usr/bin/allure
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v4
+      - run: allure generate -c allure-results -o _site
+      - name: Store generated report
+        uses: actions/upload-artifact@v4
+        with:
+          name: _site
+          path: _site
+          retention-days: 1
+
+  publish-report:
+    runs-on: ubuntu-latest
+    needs: generate-report
+    name: Report publication
+    permissions:
+      id-token: write
+      pages: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v4
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
